@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.RobotLog;
+
+import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
 @TeleOp(name = "AstroBot1")
 public class testImplementation extends LinearOpMode {
@@ -17,6 +20,9 @@ public class testImplementation extends LinearOpMode {
     public void runOpMode() {
 
         robot = new HardwareController(this, 0, 0, 0);
+        StandardTrackingWheelLocalizer localizer = new StandardTrackingWheelLocalizer(hardwareMap);
+
+        localizer.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(0)));
 
         /// ------------------------------------------------+
         /// Variable Declarations                           |
@@ -34,9 +40,15 @@ public class testImplementation extends LinearOpMode {
         float intakePower;
         float sens;
 
+        telemetry.addData("init", "finished");
+        telemetry.update();
+
         // wait for start
         waitForStart();
+
             while (opModeIsActive()) {
+                localizer.update();
+                Pose2d myPose = localizer.getPoseEstimate();
 
                 if (gamepad2.right_trigger > 0)
                 {
@@ -132,12 +144,25 @@ public class testImplementation extends LinearOpMode {
                 robot.Drop.setPosition(a);
 
                 robot.odometry();
-                RobotLog.vv("position", robot.position + "");
 
-                telemetry.addData("x",robot.position[0]);
-                telemetry.addData("y",robot.position[1]);
-                telemetry.addData("rotation",robot.position[2]);
+                telemetry.addData("left Encoder", robot.getOdometryLEPosition());
+                telemetry.addData("right Encoder", robot.getOdometryREPosition());
+                telemetry.addData("auxiliary Encoder", robot.getOdometryHEPosition());
+
+                telemetry.addData("old x", robot.ancientposition[0]);
+                telemetry.addData("old y", robot.ancientposition[1]);
+                telemetry.addData("old rotation", robot.ancientposition[2]);
+
+                telemetry.addData("gcp x", robot.getOdometryX());
+                telemetry.addData("gcp y", robot.getOdometryY());
+                telemetry.addData("gcp rotation", robot.getOdometryOrientationDegrees());
+
+                telemetry.addData("rr x", myPose.getX());
+                telemetry.addData("rr y", myPose.getY());
+                telemetry.addData("rr rotation", Math.toDegrees(myPose.getHeading()));
+
                 telemetry.update();
             }
+            robot.gcp.stop();
         }
     }

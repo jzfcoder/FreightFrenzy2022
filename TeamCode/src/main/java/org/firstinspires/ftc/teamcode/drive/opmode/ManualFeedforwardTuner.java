@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.RobotLog;
 
+import org.firstinspires.ftc.teamcode.HardwareController;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 import java.util.Objects;
@@ -42,11 +43,13 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kV;
 @Config
 @Autonomous(group = "drive")
 public class ManualFeedforwardTuner extends LinearOpMode {
-    public static double DISTANCE = 72; // in
+    public static double DISTANCE = 40; // in
 
     private FtcDashboard dashboard = FtcDashboard.getInstance();
 
     private SampleMecanumDrive drive;
+
+    private HardwareController robot;
 
     enum Mode {
         DRIVER_MODE,
@@ -63,6 +66,8 @@ public class ManualFeedforwardTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        robot = new HardwareController(this, 0, 0, 0);
+
         if (RUN_USING_ENCODER) {
             RobotLog.setGlobalErrorMsg("Feedforward constants usually don't need to be tuned " +
                     "when using the built-in drive motor velocity PID.");
@@ -129,14 +134,13 @@ public class ManualFeedforwardTuner extends LinearOpMode {
                         activeProfile = generateProfile(movingForwards);
                         profileStart = clock.seconds();
                     }
-
-                    drive.setWeightedDrivePower(
-                            new Pose2d(
-                                    -gamepad1.left_stick_y,
-                                    -gamepad1.left_stick_x,
-                                    -gamepad1.right_stick_x
-                            )
-                    );
+                    double vertical = -gamepad1.left_stick_y * 0.5;
+                    double horizontal = gamepad1.left_stick_x * 0.5;
+                    double pivot = gamepad1.right_stick_x * 0.5;
+                    robot.powerRF.setPower(-pivot + (vertical - horizontal));
+                    robot.powerRB.setPower(-pivot + vertical + horizontal);
+                    robot.powerLF.setPower(pivot + vertical + horizontal);
+                    robot.powerLB.setPower(pivot + (vertical - horizontal));
                     break;
             }
 

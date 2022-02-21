@@ -41,8 +41,8 @@ public class TestOdometryGCP extends LinearOpMode {
 
         while(opModeIsActive())
         {
-            vertical = gamepad1.left_stick_y * sens;
-            horizontal = -gamepad1.left_stick_x * sens;
+            vertical = -gamepad1.left_stick_y * sens;
+            horizontal =  gamepad1.left_stick_x * sens;
             pivot = -gamepad1.right_stick_x * sens;
 
             robot.powerRF.setPower(-pivot + (vertical - horizontal));
@@ -66,9 +66,9 @@ public class TestOdometryGCP extends LinearOpMode {
 
         telemetry.addData("imu angle", (robot.imu.getAngularOrientation().firstAngle * 180 ) / Math.PI);
 
-        telemetry.addData("> x", robot.position[0]);
-        telemetry.addData("> y", robot.position[1]);
-        telemetry.addData("> h", (robot.position[2] * 180) / Math.PI);
+        telemetry.addData("> x", robot.ancientposition[0]);
+        telemetry.addData("> y", robot.ancientposition[1]);
+        telemetry.addData("> h", (robot.ancientposition[2] * 180) / Math.PI);
 
         telemetry.update();
     }

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\timfl\\scuffedDDrive\\Robotics\\FTC-2022\\FtcRobotController\\TeamCode\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-am\\values-am.xml",
+            "outputFile": "C:\\Users\\timfl\\scuffedDDrive\\Robotics\\FTC-2022\\FreightFrenzy2022\\TeamCode\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-am\\values-am.xml",
             "map": [
                 {
                     "source": "C:\\Users\\timfl\\.gradle\\caches\\transforms-3\\16349600783fa4c0732e670111179c78\\transformed\\appcompat-1.2.0\\res\\values-am\\values-am.xml",

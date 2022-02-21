@@ -2,10 +2,14 @@ org/firstinspires/ftc/teamcode/drive/opmode/TrackWidthTuner.java
  org.firstinspires.ftc.teamcode.drive.opmode.TrackWidthTuner
 org/firstinspires/ftc/teamcode/trajectorysequence/sequencesegment/WaitSegment.java
  org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.WaitSegment
+org/firstinspires/ftc/teamcode/AstroGCP.java
+ org.firstinspires.ftc.teamcode.AstroGCP
 org/firstinspires/ftc/teamcode/drive/opmode/BackAndForth.java
  org.firstinspires.ftc.teamcode.drive.opmode.BackAndForth
 org/firstinspires/ftc/teamcode/drive/opmode/MotorDirectionDebugger.java
  org.firstinspires.ftc.teamcode.drive.opmode.MotorDirectionDebugger
+org/firstinspires/ftc/teamcode/colorSensorTest.java
+ org.firstinspires.ftc.teamcode.colorSensorTest
 org/firstinspires/ftc/teamcode/drive/opmode/MaxAngularVeloTuner.java
  org.firstinspires.ftc.teamcode.drive.opmode.MaxAngularVeloTuner
 org/firstinspires/ftc/teamcode/RedPaths/RedWSpawnWEnd.java
@@ -32,11 +36,11 @@ org/firstinspires/ftc/teamcode/util/LynxModuleUtil.java
  org.firstinspires.ftc.teamcode.util.LynxModuleUtil
  org.firstinspires.ftc.teamcode.util.LynxModuleUtil$LynxFirmwareVersion
  org.firstinspires.ftc.teamcode.util.LynxModuleUtil$LynxFirmwareVersionException
+org/firstinspires/ftc/teamcode/OdometryGCP.java
+ org.firstinspires.ftc.teamcode.OdometryGCP
 org/firstinspires/ftc/teamcode/util/Encoder.java
  org.firstinspires.ftc.teamcode.util.Encoder
  org.firstinspires.ftc.teamcode.util.Encoder$Direction
-org/firstinspires/ftc/teamcode/OdometryGCP.java
- org.firstinspires.ftc.teamcode.OdometryGCP
 org/firstinspires/ftc/teamcode/drive/SampleMecanumDrive.java
  org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive
 org/firstinspires/ftc/teamcode/trajectorysequence/sequencesegment/TurnSegment.java

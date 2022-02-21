@@ -118,6 +118,7 @@ public class AutomaticFeedforwardTuner extends LinearOpMode {
 
             timeSamples.add(elapsedTime);
             positionSamples.add(drive.getPoseEstimate().getX());
+            RobotLog.vv("AutomaticFeedForward: x", drive.getPoseEstimate().getX() + "");
             powerSamples.add(power);
 
             drive.setDrivePower(new Pose2d(power, 0.0, 0.0));
