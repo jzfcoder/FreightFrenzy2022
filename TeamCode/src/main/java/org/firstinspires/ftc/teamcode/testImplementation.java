@@ -143,19 +143,9 @@ public class testImplementation extends LinearOpMode {
                 }
                 robot.Drop.setPosition(a);
 
-                robot.odometry();
-
                 telemetry.addData("left Encoder", robot.getOdometryLEPosition());
                 telemetry.addData("right Encoder", robot.getOdometryREPosition());
                 telemetry.addData("auxiliary Encoder", robot.getOdometryHEPosition());
-
-                telemetry.addData("old x", robot.ancientposition[0]);
-                telemetry.addData("old y", robot.ancientposition[1]);
-                telemetry.addData("old rotation", robot.ancientposition[2]);
-
-                telemetry.addData("gcp x", robot.getOdometryX());
-                telemetry.addData("gcp y", robot.getOdometryY());
-                telemetry.addData("gcp rotation", robot.getOdometryOrientationDegrees());
 
                 telemetry.addData("rr x", myPose.getX());
                 telemetry.addData("rr y", myPose.getY());
@@ -163,6 +153,5 @@ public class testImplementation extends LinearOpMode {
 
                 telemetry.update();
             }
-            robot.gcp.stop();
         }
     }
