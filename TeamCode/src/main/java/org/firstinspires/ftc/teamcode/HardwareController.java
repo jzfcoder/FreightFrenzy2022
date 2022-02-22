@@ -93,7 +93,7 @@ public class HardwareController
         // shadow the motors with the odo encoders
         encoderLeft = powerLB;
         encoderRight = powerRB;
-        encoderAux = powerLF;
+        encoderAux = powerRF;
 
         // init IMU
         initIMU();
@@ -130,8 +130,8 @@ public class HardwareController
 
     private void setMotorDir()
     {
-        powerRF.setDirection(DcMotor.Direction.REVERSE);
-        powerRB.setDirection(DcMotor .Direction.REVERSE);
+        powerLF.setDirection(DcMotor.Direction.REVERSE);
+        powerLB.setDirection(DcMotor .Direction.REVERSE);
 
         LinearL.setDirection(DcMotor.Direction.FORWARD);
         LinearR.setDirection(DcMotor.Direction.REVERSE);
@@ -244,18 +244,6 @@ public class HardwareController
     //
     // ODOMETRY ROUNTINES
     //
-
-    public double getOdometryLEPosition() {
-        return encoderLeft.getCurrentPosition();
-    }
-
-    public double getOdometryREPosition() {
-        return encoderLeft.getCurrentPosition();
-    }
-
-    public double getOdometryHEPosition() {
-        return encoderLeft.getCurrentPosition();
-    }
 
     public double getAncientXPosition() { return ancientposition[0]; }
     public double getAncientYPosition() { return ancientposition[1]; }

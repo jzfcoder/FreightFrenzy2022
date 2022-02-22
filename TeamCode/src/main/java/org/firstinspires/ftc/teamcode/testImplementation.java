@@ -143,9 +143,9 @@ public class testImplementation extends LinearOpMode {
                 }
                 robot.Drop.setPosition(a);
 
-                telemetry.addData("left Encoder", robot.getOdometryLEPosition());
-                telemetry.addData("right Encoder", robot.getOdometryREPosition());
-                telemetry.addData("auxiliary Encoder", robot.getOdometryHEPosition());
+                telemetry.addData("left Encoder", robot.encoderLeft.getCurrentPosition());
+                telemetry.addData("right Encoder", robot.encoderRight.getCurrentPosition());
+                telemetry.addData("auxiliary Encoder", robot.encoderAux.getCurrentPosition());
 
                 telemetry.addData("rr x", myPose.getX());
                 telemetry.addData("rr y", myPose.getY());
