@@ -55,33 +55,29 @@ public class testImplementation extends LinearOpMode {
                     slidePower = gamepad2.right_trigger;
                     slide = slidePower * 2;
 
-                    robot.LinearL.setPower(slide);
-                    robot.LinearR.setPower(slide);
+                    robot.Linear.setPower(slide);
                 }
                 else if (gamepad2.left_trigger > 0)
                 {
-                    if (robot.LinearL.getCurrentPosition() < 0)
+                    if (robot.Linear.getCurrentPosition() < 0)
                     {
                         slidePower = -gamepad2.left_trigger;
                         slide = slidePower * 2;
 
-                        robot.LinearL.setPower(slide);
-                        robot.LinearR.setPower(slide);
+                        robot.Linear.setPower(slide);
                     }
                     else
                     {
                         slide = 0;
-                        robot.LinearL.setPower(slide);
-                        robot.LinearR.setPower(slide);
+                        robot.Linear.setPower(slide);
                     }
                 }
                 else
                 {
                     slide = 0;
-                    robot.LinearL.setPower(slide);
-                    robot.LinearR.setPower(slide);
+                    robot.Linear.setPower(slide);
                 }
-                RobotLog.vv("linears", robot.LinearL.getCurrentPosition() + ", " + robot.LinearR.getCurrentPosition());
+                RobotLog.vv("linears", robot.Linear.getCurrentPosition() + "");
 
                 if (gamepad2.right_bumper)
                 {
@@ -129,7 +125,8 @@ public class testImplementation extends LinearOpMode {
                 robot.Carousel.setPower(carousel * 0.75f);
 
                 intake = intakePower;
-                robot.Intake.setPower(intake);
+                robot.IntakeF.setPower(intake);
+                robot.IntakeB.setPower(intake);
 
                 if (gamepad2.a) {
                     a = 1;
@@ -139,7 +136,7 @@ public class testImplementation extends LinearOpMode {
                 }
                 if (gamepad2.b)
                 {
-                    RobotLog.vv("linearHeight", "" + robot.LinearL.getCurrentPosition());
+                    RobotLog.vv("linearHeight", "" + robot.Linear.getCurrentPosition());
                 }
                 robot.Drop.setPosition(a);
 

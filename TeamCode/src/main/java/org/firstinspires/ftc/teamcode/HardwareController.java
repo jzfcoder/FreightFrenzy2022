@@ -46,10 +46,11 @@ public class HardwareController
     public DcMotor powerLF;
     public DcMotor powerLB;
 
-    public DcMotor LinearL;
-    public DcMotor LinearR;
+    public DcMotor Linear;
 
-    public DcMotor Intake;
+    public DcMotor IntakeF;
+    public DcMotor IntakeB;
+
     public DcMotor Carousel;
 
     public Servo Drop;
@@ -117,10 +118,10 @@ public class HardwareController
         powerLF = hardwareMap.get(DcMotor.class, MOTOR_LF);
         powerLB = hardwareMap.get(DcMotor.class, MOTOR_LB);
 
-        LinearL = hardwareMap.get(DcMotor.class, "LinearL");
-        LinearR = hardwareMap.get(DcMotor.class, "LinearR");
+        Linear = hardwareMap.get(DcMotor.class, "Linear");
 
-        Intake = hardwareMap.get(DcMotor.class, "Intake");
+        IntakeF = hardwareMap.get(DcMotor.class, "IntakeF");
+        IntakeB = hardwareMap.get(DcMotor.class, "IntakeB");
         Carousel = hardwareMap.get(DcMotor.class, "Carousel");
         Drop = hardwareMap.get(Servo.class, "Drop");
 
@@ -133,10 +134,10 @@ public class HardwareController
         powerLF.setDirection(DcMotor.Direction.REVERSE);
         powerLB.setDirection(DcMotor .Direction.REVERSE);
 
-        LinearL.setDirection(DcMotor.Direction.FORWARD);
-        LinearR.setDirection(DcMotor.Direction.REVERSE);
+        Linear.setDirection(DcMotor.Direction.FORWARD);
 
-        Intake.setDirection(DcMotor.Direction.REVERSE);
+        IntakeF.setDirection(DcMotor.Direction.REVERSE);
+        IntakeB.setDirection(DcMotor.Direction.REVERSE);
     }
 
     private void setModes()
@@ -146,14 +147,12 @@ public class HardwareController
         powerLF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         powerLB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        LinearL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        LinearR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Linear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     private void setZPBehavior()
     {
-        LinearL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        LinearR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Linear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         powerRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         powerRB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -175,11 +174,8 @@ public class HardwareController
         powerLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         powerLB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        LinearL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LinearL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        LinearR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LinearR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Linear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Linear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     private void initIMU()
@@ -506,49 +502,41 @@ public class HardwareController
     {
         if(pos.equals(TeamMarkerDetector.TeamMarkerPosition.LEFT))
         {
-            while(opMode.opModeIsActive() && LinearL.getCurrentPosition() > bottomDist)
+            while(opMode.opModeIsActive() && Linear.getCurrentPosition() > bottomDist)
             {
-                LinearL.setPower(power);
-                LinearR.setPower(power);
+                Linear.setPower(power);
             }
-            LinearL.setPower(0);
-            LinearR.setPower(0);
+            Linear.setPower(0);
             RobotLog.vv("linearStatus", "reached Bottom");
         }
         else if (pos.equals(TeamMarkerDetector.TeamMarkerPosition.MIDDLE))
         {
-            while(opMode.opModeIsActive() && LinearL.getCurrentPosition() > middleDist)
+            while(opMode.opModeIsActive() && Linear.getCurrentPosition() > middleDist)
             {
-                LinearL.setPower(power);
-                LinearR.setPower(power);
+                Linear.setPower(power);
             }
-            LinearL.setPower(0);
-            LinearR.setPower(0);
+            Linear.setPower(0);
             RobotLog.vv("linearStatus", "reached Middle");
         }
         else
         {
-            while(opMode.opModeIsActive() && LinearL.getCurrentPosition() > topDist)
+            while(opMode.opModeIsActive() && Linear.getCurrentPosition() > topDist)
             {
-                LinearL.setPower(power);
-                LinearR.setPower(power);
+                Linear.setPower(power);
             }
-            LinearL.setPower(0);
-            LinearR.setPower(0);
+            Linear.setPower(0);
             RobotLog.vv("linearStatus", "reached Top");
         }
     }
 
     public void retractLinears(double power)
     {
-        while(opMode.opModeIsActive() && LinearL.getCurrentPosition() < 0)
+        while(opMode.opModeIsActive() && Linear.getCurrentPosition() < 0)
         {
-            LinearL.setPower(-power);
-            LinearR.setPower(-power);
-            RobotLog.vv("LinearPos", LinearL.getCurrentPosition() + ", " + LinearR.getCurrentPosition());
+            Linear.setPower(-power);
+            RobotLog.vv("LinearPos", Linear.getCurrentPosition() + "");
         }
-        LinearL.setPower(0);
-        LinearR.setPower(0);
+        Linear.setPower(0);
     }
 
     public void openServo()
