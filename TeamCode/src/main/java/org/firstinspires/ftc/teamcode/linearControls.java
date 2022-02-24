@@ -30,8 +30,9 @@ public class linearControls extends LinearOpMode {
                 }
                 else if (gamepad1.left_stick_y > 0)
                 {
-                    robot.Linear.setPower(gamepad1.left_stick_y);
+                    robot.Linear.setPower(-gamepad1.left_stick_y);
                 }
+                robot.Linear.setPower(0);
             }
         }
     }

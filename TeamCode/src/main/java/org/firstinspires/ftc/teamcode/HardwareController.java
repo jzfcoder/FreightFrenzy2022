@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
 public class HardwareController
@@ -64,6 +65,8 @@ public class HardwareController
 
     StandardTrackingWheelLocalizer localizer;
 
+    SampleMecanumDrive drive;
+
     protected LinearOpMode opMode;
 
     public ElapsedTime runtime = new ElapsedTime();
@@ -103,12 +106,15 @@ public class HardwareController
         resetEncoders();
 
         initRoadrunnerPose(hardwareMap, x, y, theta);
+
+        drive = new SampleMecanumDrive(hardwareMap);
     }
 
     private void initRoadrunnerPose(HardwareMap hw, double x, double y, double theta)
     {
         localizer = new StandardTrackingWheelLocalizer(hw);
         localizer.setPoseEstimate(new Pose2d(x, y, Math.toRadians(theta)));
+
     }
 
     private void defineObjects(HardwareMap hardwareMap)
@@ -134,7 +140,7 @@ public class HardwareController
         powerLF.setDirection(DcMotor.Direction.REVERSE);
         powerLB.setDirection(DcMotor .Direction.REVERSE);
 
-        Linear.setDirection(DcMotor.Direction.FORWARD);
+        Linear.setDirection(DcMotor.Direction.REVERSE);
 
         IntakeF.setDirection(DcMotor.Direction.REVERSE);
         IntakeB.setDirection(DcMotor.Direction.REVERSE);
@@ -246,6 +252,9 @@ public class HardwareController
     public double getAncientOrientation() { return ancientcurHeading; }
 
     // NEW MOVEMENT FUNCTIONS
+    public void newTurnToAngle(double robotAngle, double currentAngle) {
+        drive.turn(Math.toRadians(robotAngle - currentAngle));
+    }
 
     // OLD MOVEMENT FUNCTIONS
     public void turnToAngle(double robotAngle, double power) {

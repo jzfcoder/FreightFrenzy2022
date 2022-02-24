@@ -129,10 +129,10 @@ public class testImplementation extends LinearOpMode {
                 robot.IntakeB.setPower(intake);
 
                 if (gamepad2.a) {
-                    a = 1;
+                    a = 0.4f;
                 }
                 else {
-                    a = 0;
+                    a = 0.0f;
                 }
                 if (gamepad2.b)
                 {
