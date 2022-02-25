@@ -69,7 +69,7 @@ public class HardwareController
 
     private void initialize(HardwareMap hardwareMap, double x, double y, double theta)
     {
-        // connect to stuff i guess
+        // connect to hardware
         defineObjects(hardwareMap);
 
         // set motor dir
