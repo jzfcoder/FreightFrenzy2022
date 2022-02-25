@@ -23,7 +23,6 @@ public class AutonTest extends LinearOpMode {
 
         waitForStart();
 
-
         if (isStopRequested()) return;
 
         Trajectory traj = drive.trajectoryBuilder(new Pose2d())

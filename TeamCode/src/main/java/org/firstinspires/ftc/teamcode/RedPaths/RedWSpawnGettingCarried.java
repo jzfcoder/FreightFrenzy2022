@@ -23,7 +23,7 @@ public class RedWSpawnGettingCarried extends LinearOpMode {
         robot.moveStraightOnYforInches(10000, 30, 0.5, 0.5);
         robot.moveStraightOnYforInches(10000, 7, -0.5, 0.5);
         sleep(1000);
-        robot.turnToAngle(-90, 0.5);
+        robot.turnToAngleIMU(-90, 0.5);
         sleep(1000);
         robot.setAllWheelsPower(0.15);
         sleep(2000);

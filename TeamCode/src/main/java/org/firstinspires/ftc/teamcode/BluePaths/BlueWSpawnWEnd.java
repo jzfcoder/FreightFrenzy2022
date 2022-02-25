@@ -35,7 +35,7 @@ public class BlueWSpawnWEnd extends LinearOpMode {
         }
         robot.moveStraightOnYforInches(10000, 49, 0.5, 0.5);
         robot.moveStraightOnYforInches(10000, 5, -0.5, 0.5);
-        robot.turnToAngle(90, 0.5);
+        robot.turnToAngleIMU(90, 0.5);
 
         // Extend linears to position determined by CV, then open servo
         //robot.moveStraightOnXforIN(1000, 1, 0.5, 0.5);

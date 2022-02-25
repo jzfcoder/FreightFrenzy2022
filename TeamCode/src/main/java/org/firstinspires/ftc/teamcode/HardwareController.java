@@ -19,66 +19,53 @@ import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
 public class HardwareController
 {
+    // Hardware Reference Strings
     public static final String IMU_CALIBRATION_FILENAME = "IMUCalibration.json";
     public static final String MOTOR_RF = "powerRF";
     public static final String MOTOR_RB = "powerRB";
     public static final String MOTOR_LF = "powerLF";
     public static final String MOTOR_LB = "powerLB";
 
+    // Linear Slide Positions
     public static double topDist = -1900;
     public static double middleDist = -1500;
     public static double bottomDist = -1100;
 
-    // ODOMETRY VARIABLES
-    public static final int ODOMETRY_THREAD_SLEEP_INTERVAL = 50;
-    public static final int REV_ENCODER_COUNTS_PER_REVOLUTION = 8192;
-    final static double xFactor = 0.94;
-    final static double yFactor = 0.94;
-    final static double hFactor = 0.94;
-    final static double L = 16; // dist between encoder 1 & 2 in inches
-    final static double B = 2.5; // dist between encoder 3 and midpoint of 1 & 2 in inches
-    final static double D = 1.0; // wheel diameter in inches
-    final static double ODOMETRY_COUNTS_PER_INCH = (D * Math.PI) / REV_ENCODER_COUNTS_PER_REVOLUTION;
-
     public double ROBOT_INITIAL_ANGLE;
 
+    // Motors / Servos
     public DcMotor powerRF;
     public DcMotor powerRB;
     public DcMotor powerLF;
     public DcMotor powerLB;
-
     public DcMotor Linear;
-
     public DcMotor IntakeF;
     public DcMotor IntakeB;
-
     public DcMotor Carousel;
-
     public Servo Drop;
 
+    // Sensors / Encoders
     public DcMotor encoderLeft;
     public DcMotor encoderRight;
     public DcMotor encoderAux;
-
     public BNO055IMU imu;
     public ColorSensor colorSensor;
 
-    StandardTrackingWheelLocalizer localizer;
-
-    SampleMecanumDrive drive;
+    // Localization Objects
+    public StandardTrackingWheelLocalizer localizer;
+    public SampleMecanumDrive drive;
+    public AstroGCP gcp;
 
     protected LinearOpMode opMode;
-
     public ElapsedTime runtime = new ElapsedTime();
 
     public HardwareController(LinearOpMode opmode, double x, double y, double theta)
     {
         opMode = opmode;
         HardwareMap hw = opMode.hardwareMap;
+        ROBOT_INITIAL_ANGLE = theta;
         initialize(hw, x, y, theta);
     }
-
-    // -------------------
 
     private void initialize(HardwareMap hardwareMap, double x, double y, double theta)
     {
@@ -106,15 +93,17 @@ public class HardwareController
         resetEncoders();
 
         initRoadrunnerPose(hardwareMap, x, y, theta);
-
         drive = new SampleMecanumDrive(hardwareMap);
+
+        // init GCP
+        initGCP(hardwareMap, x, y, theta);
     }
 
+    // Initialization Methods
     private void initRoadrunnerPose(HardwareMap hw, double x, double y, double theta)
     {
         localizer = new StandardTrackingWheelLocalizer(hw);
         localizer.setPoseEstimate(new Pose2d(x, y, Math.toRadians(theta)));
-
     }
 
     private void defineObjects(HardwareMap hardwareMap)
@@ -205,59 +194,19 @@ public class HardwareController
         ROBOT_INITIAL_ANGLE = imu.getAngularOrientation().firstAngle;
     }
 
-
-    // OLD ODOMETRY
-    private int ancientcurRightPos = 0;
-    private int ancientcurLeftPos = 0;
-    private int ancientcurAuxPos = 0;
-    private double ancientcurHeading = 0;
-
-    private int ancientoldRightPos = 0;
-    private int ancientoldLeftPos = 0;
-    private int ancientoldAuxPos = 0;
-
-    public double[] ancientposition = new double[3];
-
-    public void odometry()
+    private void initGCP(HardwareMap hw, double x, double y, double theta)
     {
-        ancientoldRightPos = ancientcurRightPos;
-        ancientoldLeftPos = ancientcurLeftPos;
-        ancientoldAuxPos = ancientcurAuxPos;
-
-        ancientcurRightPos = -encoderRight.getCurrentPosition();
-        ancientcurLeftPos = encoderLeft.getCurrentPosition();
-        ancientcurAuxPos = encoderAux.getCurrentPosition();
-        ancientcurHeading = imu.getAngularOrientation().firstAngle;
-        //RobotLog.vv("encoder", "" + curRightPos + ", " + curLeftPos + ", " + curAuxPos);
-
-        int dn1 = ancientcurLeftPos - ancientoldLeftPos;
-        int dn2 = ancientcurRightPos - ancientoldRightPos;
-        int dn3 = ancientcurAuxPos - ancientoldAuxPos;
-
-        double dx = xFactor * ODOMETRY_COUNTS_PER_INCH * dn3;
-        double dy = yFactor * ODOMETRY_COUNTS_PER_INCH * ((dn1 + dn2) / 2.0);
-
-        double theta = ancientcurHeading;
-        ancientposition[0] += dx * Math.cos(theta) - dy * Math.sin(theta);
-        ancientposition[1] += dx * Math.sin(theta) + dy * Math.cos(theta);
-        ancientposition[2] = theta;
+        gcp = new AstroGCP(this, x, y, theta);
+        gcp.run();
     }
 
-    //
-    // ODOMETRY ROUNTINES
-    //
+    // ASTRO GCP ODOMETRY ROUNTINES
+    public double getAstroXPosition() { return gcp.getXAstroGCP(); }
+    public double getAstroYPosition() { return gcp.getYAstroGCP(); }
+    public double getAstroOrientation() { return gcp.getOrientationAstroGCP(); }
 
-    public double getAncientXPosition() { return ancientposition[0]; }
-    public double getAncientYPosition() { return ancientposition[1]; }
-    public double getAncientOrientation() { return ancientcurHeading; }
-
-    // NEW MOVEMENT FUNCTIONS
-    public void newTurnToAngle(double robotAngle, double currentAngle) {
-        drive.turn(Math.toRadians(robotAngle - currentAngle));
-    }
-
-    // OLD MOVEMENT FUNCTIONS
-    public void turnToAngle(double robotAngle, double power) {
+    // ASTROGCP MOVEMENT FUNCTIONS
+    public void turnToAngleIMU(double robotAngle, double power) {
         Orientation angles;
 
         // Add the initial angle at which the robot is initialized.
@@ -333,15 +282,81 @@ public class HardwareController
                 robotAngle, startAngle, endAngle, angles.firstAngle);
     }
 
+    public void turnToAngleAstro(double robotAngle, double power) {
+        // Add the initial angle at which the robot is initialized.
+        robotAngle -= ROBOT_INITIAL_ANGLE;
+
+        double startAngle = getAstroOrientation();
+        double deltaAngle = robotAngle - getAstroOrientation();
+        double minDelta = 2.0;
+        double LeftPower, RightPower;
+        double endAngle = 0;
+
+        RobotLog.vv("AstroBot", "turnToAngle: Enter: DestAngle = %.2f, StartAngle = %.2f", robotAngle, startAngle);
+        RobotLog.vv("AstroBot", "turnToAngle: DeltaAngle = %.2f", deltaAngle);
+        RobotLog.vv("AstroBot", "turnToAngle: Normalized DeltaAngle = %.2f", deltaAngle);
+
+        if (Math.abs(deltaAngle) < minDelta) {
+            RobotLog.vv("AstroBot", "turnToAngle: Exit: DestAngle = %.2f, StartAngle = %.2f : deltaAngle(%.2f) is less than minAngle(%.2f)",
+                    robotAngle, startAngle, deltaAngle, minDelta);
+            return;
+        }
+
+        if (deltaAngle > 0 ) {
+            RobotLog.vv("AstroBot", "turnToAngle: Turning anti clockwise");
+            LeftPower = -Math.abs(power);
+            RightPower = Math.abs(power);
+        } else {
+            RobotLog.vv("AstroBot", "turnToAngle: Turning clockwise");
+            LeftPower = Math.abs(power);
+            RightPower = -Math.abs(power);
+        }
+
+        RobotLog.vv("AstroBot", "turnToAngle: Setting RightPower(%.2f), LeftPower(%.2f)", RightPower, LeftPower);
+        setWheelsPower(RightPower, LeftPower);
+
+        while (opMode.opModeIsActive()) {
+            endAngle = getAstroOrientation();
+            double diff = robotAngle - getAstroOrientation();
+            RobotLog.vv("AstroBot", "turnToAngle: DestAngle = %.2f, StartAngle = %.2f, CurrAngle = %.2f, Delta = %.2f",
+                    robotAngle, startAngle, endAngle, diff);
+
+            RobotLog.vv("AstroBot", "turnToAngle: Normalized DeltaAngle = %.2f", diff);
+            if (Math.abs(diff) < minDelta) {
+                RobotLog.vv("AstroBot", "turnToAngle: DeltaAngle(%.2f) is less than minDelta (%.2f)", diff, minDelta);
+                break;
+            }
+
+            if (deltaAngle > 0) {
+                // Robot is turning anti clockwise direction
+                // robotAngle is greater than angles.firstAngle
+                if (diff < 0) {
+                    RobotLog.vv("AstroBot", "turnToAngle: Clockwise turn - DeltaAngle(%.2f) is less than zero", diff);
+                    break;
+                }
+            } else {
+                // Robot is turning clockwise direction
+                // robotAngle is less than angles.firstAngle
+                if (diff > 0) {
+                    RobotLog.vv("AstroBot", "turnToAngle: Anti Clockwise turn - DeltaAngle(%.2f) is greater than zero", diff);
+                    break;
+                }
+            }
+        }
+
+        RobotLog.vv("AstroBot", "turnToAngle: Setting power to zero");
+        stopAllWheels();
+    }
+
     public void moveStraightOnYforInches(double maxRuntime, double dist, double power, double allowedDeviation) {
-        /*
+
         ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
-        double startPos = getAncientYPosition();
-        double yCurr = getAncientYPosition();
+        double startPos = getAstroYPosition();
+        double yCurr = getAstroYPosition();
         PIDController pidAngle = new PIDController(0.05, 0.005, 0.05);
 
-        double angle = getAncientOrientation();
+        double angle = getAstroOrientation();
         if ((angle > -45) && (angle < 45))
             pidAngle.setSetPoint(0.0);
         else
@@ -351,18 +366,17 @@ public class HardwareController
         pidAngle.setOutputBounds(-0.10, 0.10);
 
         while (runtime.milliseconds() < maxRuntime && opMode.opModeIsActive()) {
-            odometry();
             double leftPower = power;
             double rightPower = power;
 
-            double currAngle = getAncientOrientation();
+            double currAngle = getAstroOrientation();
             double correction = pidAngle.calculateCorrection(currAngle);
 
             rightPower += correction;
             leftPower -= correction;
             RobotLog.vv("AstroBot", "moveStraightOnYforInches: power = %.2f, currAngle = %.2f, correction = %.2f", power, currAngle, correction);
 
-            yCurr = getAncientYPosition();
+            yCurr = getAstroYPosition();
             double deviation = dist - Math.abs(yCurr - startPos);
 
             setWheelsPower(rightPower, leftPower);
@@ -373,7 +387,7 @@ public class HardwareController
             RobotLog.vv("AstroBot", "move: Runtime = %.2f, startY = %.2f, currY = %.2f, dist = %.2f, deviation(%.2f), allowedDeviation(%.2f)",
                     runtime.milliseconds(), startPos, yCurr, dist, deviation, allowedDeviation);
 
-            RobotLog.vv("readings", getAncientYPosition() + "");
+            RobotLog.vv("readings", getAstroYPosition() + "");
 
             if ( deviation < allowedDeviation) {
                 RobotLog.vv("AstroBot", "move: Runtime = %.2f, startY = %.2f, currY = %.2f, dist = %.2f, deviation(%.2f) < allowedDeviation(%.2f)",
@@ -383,20 +397,18 @@ public class HardwareController
             opMode.sleep(10);
         }
         stopAllWheels();
-        */
     }
 
     public void strafeOnXforInches(double maxRuntime, double dist, strafeDirection direction, double power, double allowedDeviation) {
         ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
         strafeWheels(direction, power);
 
-        double startPosX = getAncientXPosition();
-        double startPosY = getAncientXPosition();
+        double startPosX = getAstroXPosition();
+        double startPosY = getAstroYPosition();
 
         while (runtime.milliseconds() < maxRuntime) {
-            odometry();
-            double xCurr = getAncientXPosition();
-            double yCurr = getAncientYPosition();
+            double xCurr = getAstroXPosition();
+            double yCurr = getAstroYPosition();
             double deviation = dist - Math.abs(xCurr - startPosX);
 
             RobotLog.vv("AstroBot", "strafeOnXforInches: Runtime = %.2f, startX = %.2f, startY = %.2f, currX = %.2f, currY = %.2f",
@@ -421,11 +433,10 @@ public class HardwareController
         ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
         strafeWheels(direction, power);
 
-        double startPosX = encoderAux.getCurrentPosition() * xFactor * ODOMETRY_COUNTS_PER_INCH;
+        double startPosX = encoderAux.getCurrentPosition() * gcp.xFactor * gcp.ODOMETRY_INCHES_PER_COUNT;
 
         while (runtime.milliseconds() < maxRuntime) {
-            odometry();
-            double xCurr = encoderAux.getCurrentPosition() * xFactor * ODOMETRY_COUNTS_PER_INCH;
+            double xCurr = encoderAux.getCurrentPosition() * gcp.xFactor * gcp.ODOMETRY_INCHES_PER_COUNT;
             double deviation = dist - Math.abs(startPosX - xCurr);
 
             if ( deviation < allowedDeviation) {
@@ -506,7 +517,7 @@ public class HardwareController
         return outputAngle;
     }
 
-
+    // Advanced Functions
     public void extendLinears(TeamMarkerDetector.TeamMarkerPosition pos, double power)
     {
         if(pos.equals(TeamMarkerDetector.TeamMarkerPosition.LEFT))
@@ -553,7 +564,7 @@ public class HardwareController
         ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
         while (runtime.milliseconds() < 1000)
         {
-            Drop.setPosition(1);
+            Drop.setPosition(0.4);
         }
     }
 
@@ -574,6 +585,8 @@ public class HardwareController
         }
     }
 
+
+    // Variable Values
     public enum strafeDirection
     {
         LEFT,

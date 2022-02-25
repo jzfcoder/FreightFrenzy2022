@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.Hardware;
 
 @Autonomous(name = "AutonomousTest", group = "tests")
 public class directionTest extends LinearOpMode {
@@ -14,8 +13,8 @@ public class directionTest extends LinearOpMode {
         robot.moveStraightOnYforInches(1000, 10, -0.25, 0.5);
         telemetry.addData("> current action", "moving straight on Y");
 
-        robot.turnToAngle(90, 0.25);
-        robot.turnToAngle(0, 0.25);
+        robot.turnToAngleIMU(90, 0.25);
+        robot.turnToAngleIMU(0, 0.25);
         telemetry.addData("> current action", "turning to angle");
 
         robot.strafeOnAuxforInches(1000, 10, HardwareController.strafeDirection.RIGHT, 0.25, 0.5);

@@ -7,37 +7,25 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.HardwareController;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
 @Autonomous(name = "NewMovementAutonTest")
 public class AutonTest2 extends LinearOpMode {
+    HardwareController robot;
 
     @Override
     public void runOpMode()
     {
-        HardwareController robot = new HardwareController(this, 0, 0, 0);
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        StandardTrackingWheelLocalizer localizer = new StandardTrackingWheelLocalizer(hardwareMap);
-        localizer.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(0)));
-        localizer.update();
-        Pose2d pose = localizer.getPoseEstimate();
+        robot = new HardwareController(this, 0, 0, 0);
 
         waitForStart();
 
-
         if (isStopRequested()) return;
-        localizer.update();
-        pose = localizer.getPoseEstimate();
-        robot.newTurnToAngle(90, pose.getHeading());
-        localizer.update();
-        pose = localizer.getPoseEstimate();
-        robot.newTurnToAngle(-90, pose.getHeading());
-        localizer.update();
-        pose = localizer.getPoseEstimate();
-        robot.newTurnToAngle(45, pose.getHeading());
-        localizer.update();
-        pose = localizer.getPoseEstimate();
-        robot.newTurnToAngle(-10, pose.getHeading());
+
+        robot.moveStraightOnYforInches(1000, 15, 0.5, 0.5);
+        robot.strafeOnXforInches(1000, 10, HardwareController.strafeDirection.RIGHT, 0.5, 0.5);
+        robot.strafeOnAuxforInches(1000, 10, HardwareController.strafeDirection.LEFT, 0.5, 0.5);
+        robot.turnToAngleAstro(90, 0.5);
+        robot.turnToAngleAstro(0, 0.5);
+        robot.moveStraightOnYforInches(1000, 15, -0.5, 0.5);
     }
 }

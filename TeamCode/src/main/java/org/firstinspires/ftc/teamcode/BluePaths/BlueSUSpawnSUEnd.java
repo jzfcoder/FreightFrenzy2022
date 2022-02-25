@@ -32,7 +32,7 @@ public class BlueSUSpawnSUEnd extends LinearOpMode {
         robot.moveStraightOnYforInches(10000, 50, 0.5, 0.5);
         robot.moveStraightOnYforInches(10000, 6, -0.5, 0.5);
         robot.strafeOnXforInches(10000, 9, HardwareController.strafeDirection.LEFT, 0.5, 0.5);
-        robot.turnToAngle(-85, 0.5);
+        robot.turnToAngleIMU(-85, 0.5);
 
         // Extend linears to position determined by CV, then open servo
         robot.extendLinears(teamMarkerPosition, 0.5);
@@ -44,11 +44,11 @@ public class BlueSUSpawnSUEnd extends LinearOpMode {
 
         // Orient for storage unit parking
         //robot.strafeOnAuxforInches(100000, 25, HardwareController.strafeDirection.RIGHT, 0.5, 0.5);
-        robot.turnToAngle(0, 0.5);
+        robot.turnToAngleIMU(0, 0.5);
         robot.strafeOnXforInches(5000, 46, HardwareController.strafeDirection.RIGHT, 0.5, 0.5);
         robot.moveStraightOnYforInches(10000, 30, -0.5, 0.5);
         robot.carouselSpin(0.65);
-        robot.turnToAngle(0, 0.5);
+        robot.turnToAngleIMU(0, 0.5);
         robot.moveStraightOnYforInches(10000, 14.75, 0.5, 0.5);
     }
 
