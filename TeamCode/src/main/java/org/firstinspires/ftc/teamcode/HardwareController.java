@@ -55,6 +55,7 @@ public class HardwareController
     public StandardTrackingWheelLocalizer localizer;
     public SampleMecanumDrive drive;
     public AstroGCP gcp;
+    public Thread gcpThread;
 
     protected LinearOpMode opMode;
     public ElapsedTime runtime = new ElapsedTime();
@@ -82,8 +83,8 @@ public class HardwareController
         setModes();
 
         // shadow the motors with the odo encoders
-        encoderLeft = powerLB;
-        encoderRight = powerRB;
+        encoderLeft = powerRB;
+        encoderRight = powerLF;
         encoderAux = powerRF;
 
         // init IMU
@@ -197,7 +198,8 @@ public class HardwareController
     private void initGCP(HardwareMap hw, double x, double y, double theta)
     {
         gcp = new AstroGCP(this, x, y, theta);
-        gcp.run();
+        gcpThread = new Thread(gcp);
+        gcpThread.start();
     }
 
     // ASTRO GCP ODOMETRY ROUNTINES

@@ -23,7 +23,11 @@ public class AutonTest extends LinearOpMode {
 
         waitForStart();
 
-        if (isStopRequested()) return;
+        if (isStopRequested())
+        {
+            robot.gcp.stop();
+            return;
+        }
 
         Trajectory traj = drive.trajectoryBuilder(new Pose2d())
                 .splineTo(new Vector2d(30, 30), 90)

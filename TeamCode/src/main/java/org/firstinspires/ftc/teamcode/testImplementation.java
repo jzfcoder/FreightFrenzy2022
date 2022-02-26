@@ -46,6 +46,11 @@ public class testImplementation extends LinearOpMode {
         // wait for start
         waitForStart();
 
+        if (isStopRequested())
+        {
+            return;
+        }
+
             while (opModeIsActive()) {
                 localizer.update();
                 Pose2d myPose = localizer.getPoseEstimate();
@@ -140,9 +145,13 @@ public class testImplementation extends LinearOpMode {
                 }
                 robot.Drop.setPosition(a);
 
-                telemetry.addData("left Encoder", robot.encoderLeft.getCurrentPosition());
-                telemetry.addData("right Encoder", robot.encoderRight.getCurrentPosition());
-                telemetry.addData("auxiliary Encoder", robot.encoderAux.getCurrentPosition());
+                telemetry.addData("left Encoder", localizer.getLeftEncoder());
+                telemetry.addData("right Encoder", localizer.getRightEncoder());
+                telemetry.addData("auxiliary Encoder", localizer.getFrontEncoder()   );
+
+                telemetry.addData("astro x", robot.getAstroXPosition());
+                telemetry.addData("astro y", robot.getAstroXPosition());
+                telemetry.addData("astro orientation", robot.getAstroOrientation());
 
                 telemetry.addData("rr x", myPose.getX());
                 telemetry.addData("rr y", myPose.getY());

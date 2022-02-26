@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.util.RobotLog;
+
 public class AstroGCP implements Runnable{
     final static double REV_ENCODER_COUNTS_PER_REVOLUTION = 8192;
     final static double L = 10.5; // dist between encoder 1 & 2 in inches
@@ -22,7 +24,7 @@ public class AstroGCP implements Runnable{
     private int oldLeftPosition = 0;
     private int oldAuxPosition = 0;
 
-    private boolean isRunning = false;
+    private boolean isRunning = true;
     private int sleepTime = 50;
 
     HardwareController hardwareController;
@@ -57,6 +59,8 @@ public class AstroGCP implements Runnable{
         pos[0] += (dx * Math.cos(theta) - dy * Math.sin(theta)) * xFactor;
         pos[1] += (dx * Math.sin(theta) + dy * Math.cos(theta)) * yFactor;
         pos[2] += (dtheta) * hFactor;
+
+        RobotLog.vv("PosAstroGCP", pos[0] + ", " + pos[1] + ", " + pos[2]);
     }
 
     public double getXAstroGCP()
@@ -78,6 +82,7 @@ public class AstroGCP implements Runnable{
 
     @Override
     public void run() {
+        RobotLog.vv("AstroGCP", "starting");
         while(isRunning) {
             update();
             try {

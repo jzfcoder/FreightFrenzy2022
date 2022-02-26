@@ -1,5 +1,10 @@
 package org.firstinspires.ftc.teamcode.drive.opmode;
 
+import static org.firstinspires.ftc.teamcode.HardwareController.MOTOR_RF;
+import static org.firstinspires.ftc.teamcode.HardwareController.MOTOR_RB;
+import static org.firstinspires.ftc.teamcode.HardwareController.MOTOR_LF;
+import static org.firstinspires.ftc.teamcode.HardwareController.MOTOR_LB;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -22,6 +27,11 @@ public class LocalizationTest extends LinearOpMode {
     Encoder rightEncoder;
     Encoder frontEncoder;
 
+    DcMotor powerRF;
+    DcMotor powerRB;
+    DcMotor powerLF;
+    DcMotor powerLB;
+
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -33,18 +43,22 @@ public class LocalizationTest extends LinearOpMode {
         drive.leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         drive.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        powerRF = hardwareMap.get(DcMotor.class, MOTOR_RF);
+        powerRB = hardwareMap.get(DcMotor.class, MOTOR_RB);
+        powerLF = hardwareMap.get(DcMotor.class, MOTOR_LF);
+        powerLB = hardwareMap.get(DcMotor.class, MOTOR_LB);
+
         waitForStart();
 
-        while (!isStopRequested()) {
-            drive.setWeightedDrivePower(
-                    new Pose2d(
-                            -gamepad1.left_stick_y,
-                            -gamepad1.left_stick_x,
-                            -gamepad1.right_stick_x
-                    )
-            );
+        while (opModeIsActive()) {
 
-            drive.update();
+            double vertical = -gamepad1.left_stick_y * 2.0;
+            double horizontal = gamepad1.left_stick_x * 2.0;
+            double pivot = gamepad1.right_stick_x * 2.0;
+            powerRF.setPower(-pivot + (vertical - horizontal));
+            powerRB.setPower(-pivot + vertical + horizontal);
+            powerLF.setPower(pivot + vertical + horizontal);
+            powerLB.setPower(pivot + (vertical - horizontal));
 
             Pose2d poseEstimate = drive.getPoseEstimate();
             telemetry.addData("x", poseEstimate.getX());
