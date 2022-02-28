@@ -65,6 +65,8 @@ org/firstinspires/ftc/teamcode/drive/opmode/DriveVelocityPIDTuner.java
  org.firstinspires.ftc.teamcode.drive.opmode.DriveVelocityPIDTuner$Mode
 org/firstinspires/ftc/teamcode/drive/opmode/AutomaticFeedforwardTuner.java
  org.firstinspires.ftc.teamcode.drive.opmode.AutomaticFeedforwardTuner
+org/firstinspires/ftc/teamcode/NewBluePaths/NewBlueSUSpawnSUEnd.java
+ org.firstinspires.ftc.teamcode.NewBluePaths.NewBlueSUSpawnSUEnd
 org/firstinspires/ftc/teamcode/drive/opmode/TurnTest.java
  org.firstinspires.ftc.teamcode.drive.opmode.TurnTest
 org/firstinspires/ftc/teamcode/util/RegressionUtil.java

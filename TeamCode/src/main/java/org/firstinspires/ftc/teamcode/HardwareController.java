@@ -27,9 +27,9 @@ public class HardwareController
     public static final String MOTOR_LB = "powerLB";
 
     // Linear Slide Positions
-    public static double topDist = -1900;
-    public static double middleDist = -1500;
-    public static double bottomDist = -1100;
+    public static double topDist = -4000;
+    public static double middleDist = -3900;
+    public static double bottomDist = -3700;
 
     public double ROBOT_INITIAL_ANGLE;
 
