@@ -12,40 +12,51 @@ import org.firstinspires.ftc.teamcode.HardwareController;
 import org.firstinspires.ftc.teamcode.TeamMarkerDetector;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@Autonomous(name = "NewBlueSUSpawnSUEnd", group = "Blue")
-public class NewBlueSUSpawnSUEnd extends LinearOpMode {
+@Autonomous(name = "newBlueSUSpawnSUEnd")
+public class newBlueSUSpawnSUEnd extends LinearOpMode {
+
     TeamMarkerDetector.TeamMarkerPosition teamMarkerPosition;
     TeamMarkerDetector teamMarkerDetector;
 
     @Override
     public void runOpMode()
     {
-        HardwareController robot = new HardwareController(this, 0, 0, 0);
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        HardwareController robot = new HardwareController(this, -33, 63, 0);
         teamMarkerDetector = new TeamMarkerDetector(this);
         teamMarkerDetector.init();
+        runCV();
+
+        telemetry.addData("init", "finished");
+        telemetry.update();
 
         waitForStart();
 
-        // Run CV to get position of team element
-        runCV();
+        if (isStopRequested())
+        {
+            robot.gcp.stop();
+            return;
+        }
 
-        Trajectory aHub = drive.trajectoryBuilder(new Pose2d(), true)
-                .splineTo(new Vector2d(-24, 0), Math.toRadians(180))
+        Trajectory aHub = robot.drive.trajectoryBuilder(new Pose2d(-33, 63, 0))
+                .lineToConstantHeading(new Vector2d(-15.0, 63.0))
                 .build();
 
-        drive.followTrajectory(aHub);
         robot.extendLinears(teamMarkerPosition, 0.5);
-        robot.openServo();
-        sleep(1000);
-        robot.closeServo();
-        robot.retractLinears(0.5);
+        robot.drive.followTrajectory(aHub);
 
-        Trajectory carousel = drive.trajectoryBuilder(aHub.end())
-                .splineTo(new Vector2d(10, -10), Math.toRadians(180))
-                .splineTo(new Vector2d(5, -5), Math.toRadians(180))
+        Trajectory toCarousel = robot.drive.trajectoryBuilder(aHub.end())
+                .splineToLinearHeading(new Pose2d(-58.0, 53.0, Math.toRadians(-90.0)), Math.toRadians(180.0))
                 .build();
-        drive.followTrajectory(carousel);
+
+        robot.drive.followTrajectory(toCarousel);
+
+        robot.carouselSpin(-0.5);
+
+        Trajectory toSU = robot.drive.trajectoryBuilder(toCarousel.end())
+                .lineToConstantHeading(new Vector2d(-60.0, 35.5))
+                .build();
+
+        robot.drive.followTrajectory(toSU);
     }
 
     void runCV()
@@ -53,12 +64,14 @@ public class NewBlueSUSpawnSUEnd extends LinearOpMode {
         ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
         while (runtime.milliseconds() < 2000)
         {
-            teamMarkerPosition = teamMarkerDetector.getTeamMarkerPosition();
+            if (teamMarkerDetector.getTeamMarkerPosition() != teamMarkerPosition.NOT_DETECTED)
+            {
+                teamMarkerPosition = teamMarkerDetector.getTeamMarkerPosition();
+            }
             sleep(50);
         }
-        sleep(2000);
-        //teamMarkerDetector.clean();
         telemetry.addData("cvPosition", teamMarkerDetector.PosToString(teamMarkerPosition));
         telemetry.update();
+        teamMarkerDetector.clean();
     }
 }

@@ -452,10 +452,29 @@ public class HardwareController
         stopAllWheels();
     }
 
+    public void driveUntilIntake(double maxRuntime, double power, double intakePower)
+    {
+        ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+        setIntakePower(intakePower);
+
+        while (runtime.milliseconds() < maxRuntime && colorSensor.alpha() <= 70)
+        {
+            setAllWheelsPower(power);
+        }
+        setIntakePower(0.0);
+        stopAllWheels();
+    }
+
     // Simple Motor Controls
     public void stopAllWheels()
     {
         setAllWheelsPower(0.0);
+    }
+
+    public void setIntakePower(double power)
+    {
+        IntakeB.setPower(power);
+        IntakeF.setPower(power);
     }
 
     public void setWheelsPower(double RP, double LP)
