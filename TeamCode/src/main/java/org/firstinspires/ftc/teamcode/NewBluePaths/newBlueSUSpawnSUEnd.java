@@ -25,11 +25,11 @@ public class newBlueSUSpawnSUEnd extends LinearOpMode {
         teamMarkerDetector = new TeamMarkerDetector(this);
         teamMarkerDetector.init();
 
-        telemetry.addData("init", "finished");
-        telemetry.update();
+        //telemetry.addData("init", "finished");
+        //telemetry.update();
 
         waitForStart();
-
+        //TODO: fix cv
         //runCV();
 
         if (isStopRequested())
@@ -41,9 +41,11 @@ public class newBlueSUSpawnSUEnd extends LinearOpMode {
         Trajectory aHub = robot.drive.trajectoryBuilder(new Pose2d(-33, 63, Math.toRadians(180.0)))
                 .lineToConstantHeading(new Vector2d(-15.0, 60.0))
                 .build();
-
-        //robot.extendLinears(teamMarkerPosition, 0.5);
         robot.drive.followTrajectory(aHub);
+        robot.extendLinears(TeamMarkerDetector.TeamMarkerPosition.MIDDLE, 0.5);
+        robot.openServo();
+        robot.closeServo();
+        robot.retractLinears(0.5);
 
         Trajectory toCarousel = robot.drive.trajectoryBuilder(aHub.end())
                 .splineToLinearHeading(new Pose2d(-58.0, 55.0, Math.toRadians(-90.0)), Math.toRadians(180.0))
