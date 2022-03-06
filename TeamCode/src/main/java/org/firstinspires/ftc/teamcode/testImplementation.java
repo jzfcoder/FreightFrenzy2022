@@ -39,6 +39,7 @@ public class testImplementation extends LinearOpMode {
         float slidePower;
         float intakePower;
         float sens;
+        float cap = 0;
 
         telemetry.addData("init", "finished");
         telemetry.update();
@@ -144,6 +145,8 @@ public class testImplementation extends LinearOpMode {
                     RobotLog.vv("linearHeight", "" + robot.Linear.getCurrentPosition());
                 }
                 robot.Drop.setPosition(a);
+
+                robot.Cap.setPosition((-gamepad2.left_stick_y / 2) + 0.5);
 
                 telemetry.addData("left Encoder", localizer.getLeftEncoder());
                 telemetry.addData("right Encoder", localizer.getRightEncoder());

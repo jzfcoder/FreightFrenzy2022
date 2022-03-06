@@ -43,6 +43,7 @@ public class HardwareController
     public DcMotor IntakeB;
     public DcMotor Carousel;
     public Servo Drop;
+    public Servo Cap;
 
     // Sensors / Encoders
     public DcMotor encoderLeft;
@@ -83,9 +84,9 @@ public class HardwareController
         setModes();
 
         // shadow the motors with the odo encoders
-        encoderLeft = powerRB;
-        encoderRight = powerLF;
-        encoderAux = powerRF;
+        encoderLeft = Carousel;
+        encoderRight = powerRF;
+        encoderAux = IntakeF;
 
         // init IMU
         initIMU();
@@ -95,6 +96,7 @@ public class HardwareController
 
         initRoadrunnerPose(hardwareMap, x, y, theta);
         drive = new SampleMecanumDrive(hardwareMap);
+        drive.setPoseEstimate(new Pose2d(x, y, Math.toRadians(theta)));
 
         // init GCP
         initGCP(hardwareMap, x, y, theta);
@@ -120,6 +122,7 @@ public class HardwareController
         IntakeB = hardwareMap.get(DcMotor.class, "IntakeB");
         Carousel = hardwareMap.get(DcMotor.class, "Carousel");
         Drop = hardwareMap.get(Servo.class, "Drop");
+        Cap = hardwareMap.get(Servo.class, "Cap");
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         colorSensor = hardwareMap.get(ColorSensor.class, "color");

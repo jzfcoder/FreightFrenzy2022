@@ -4,8 +4,6 @@ org/firstinspires/ftc/teamcode/trajectorysequence/sequencesegment/WaitSegment.ja
  org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.WaitSegment
 org/firstinspires/ftc/teamcode/AstroGCP.java
  org.firstinspires.ftc.teamcode.AstroGCP
-org/firstinspires/ftc/teamcode/NewBluePaths/AutonTest.java
- org.firstinspires.ftc.teamcode.NewBluePaths.AutonTest
 org/firstinspires/ftc/teamcode/drive/opmode/BackAndForth.java
  org.firstinspires.ftc.teamcode.drive.opmode.BackAndForth
 org/firstinspires/ftc/teamcode/drive/opmode/MotorDirectionDebugger.java
@@ -22,6 +20,8 @@ org/firstinspires/ftc/teamcode/trajectorysequence/TrajectorySequenceBuilder.java
  org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder
  org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder$1ComparingPoints
  org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder$AddPathCallback
+org/firstinspires/ftc/teamcode/NewBluePaths/newBlueWSpawnWend.java
+ org.firstinspires.ftc.teamcode.NewBluePaths.newBlueWSpawnWend
 org/firstinspires/ftc/teamcode/trajectorysequence/TrajectorySequenceRunner.java
  org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceRunner
 org/firstinspires/ftc/teamcode/drive/opmode/StraightTest.java
@@ -57,6 +57,8 @@ org/firstinspires/ftc/teamcode/drive/DriveConstants.java
  org.firstinspires.ftc.teamcode.drive.DriveConstants
 org/firstinspires/ftc/teamcode/PIDController.java
  org.firstinspires.ftc.teamcode.PIDController
+org/firstinspires/ftc/teamcode/NewBluePaths/newBlueSUSpawnSUEnd.java
+ org.firstinspires.ftc.teamcode.NewBluePaths.newBlueSUSpawnSUEnd
 org/firstinspires/ftc/teamcode/drive/opmode/FollowerPIDTuner.java
  org.firstinspires.ftc.teamcode.drive.opmode.FollowerPIDTuner
 org/firstinspires/ftc/teamcode/drive/opmode/DriveVelocityPIDTuner.java
@@ -65,8 +67,6 @@ org/firstinspires/ftc/teamcode/drive/opmode/DriveVelocityPIDTuner.java
  org.firstinspires.ftc.teamcode.drive.opmode.DriveVelocityPIDTuner$Mode
 org/firstinspires/ftc/teamcode/drive/opmode/AutomaticFeedforwardTuner.java
  org.firstinspires.ftc.teamcode.drive.opmode.AutomaticFeedforwardTuner
-org/firstinspires/ftc/teamcode/NewBluePaths/NewBlueSUSpawnSUEnd.java
- org.firstinspires.ftc.teamcode.NewBluePaths.NewBlueSUSpawnSUEnd
 org/firstinspires/ftc/teamcode/drive/opmode/TurnTest.java
  org.firstinspires.ftc.teamcode.drive.opmode.TurnTest
 org/firstinspires/ftc/teamcode/util/RegressionUtil.java
@@ -105,6 +105,8 @@ org/firstinspires/ftc/teamcode/util/LoggingUtil.java
  org.firstinspires.ftc.teamcode.util.LoggingUtil
 org/firstinspires/ftc/teamcode/util/AxisDirection.java
  org.firstinspires.ftc.teamcode.util.AxisDirection
+org/firstinspires/ftc/teamcode/NewBluePaths/newBlueWGettingCarried.java
+ org.firstinspires.ftc.teamcode.NewBluePaths.newBlueWGettingCarried
 org/firstinspires/ftc/teamcode/util/AxesSigns.java
  org.firstinspires.ftc.teamcode.util.AxesSigns
 org/firstinspires/ftc/teamcode/drive/opmode/LocalizationTest.java
