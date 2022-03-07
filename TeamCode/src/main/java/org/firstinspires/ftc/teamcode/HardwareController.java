@@ -27,9 +27,9 @@ public class HardwareController
     public static final String MOTOR_LB = "powerLB";
 
     // Linear Slide Positions
-    public static double topDist = -4000;
-    public static double middleDist = -3900;
-    public static double bottomDist = -3700;
+    public static double topDist = -3300;
+    public static double middleDist = -2500;
+    public static double bottomDist = -2200;
 
     public double ROBOT_INITIAL_ANGLE;
 
@@ -594,8 +594,11 @@ public class HardwareController
 
     public void carouselSpin (double power) {
         ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-        while (runtime.milliseconds() < 3000) {
+        while (runtime.milliseconds() < 1500) {
             Carousel.setPower(0.39 * power);
+        }
+        while (runtime.milliseconds() >= 1500 && runtime.milliseconds() < 2250) {
+            Carousel.setPower(0.59 * power);
         }
         Carousel.setPower(0);
     }

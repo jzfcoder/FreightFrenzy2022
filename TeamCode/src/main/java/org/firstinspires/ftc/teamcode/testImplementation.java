@@ -56,10 +56,19 @@ public class testImplementation extends LinearOpMode {
                 localizer.update();
                 Pose2d myPose = localizer.getPoseEstimate();
 
+                if(gamepad1.right_bumper)
+                {
+                    sens = 0.5f;
+                }
+                else
+                {
+                    sens = 2.0f;
+                }
+
                 if (gamepad2.right_trigger > 0)
                 {
                     slidePower = gamepad2.right_trigger;
-                    slide = slidePower * 2;
+                    slide = slidePower * 2 * sens;
 
                     robot.Linear.setPower(slide);
                 }
@@ -68,7 +77,7 @@ public class testImplementation extends LinearOpMode {
                     if (robot.Linear.getCurrentPosition() < 0)
                     {
                         slidePower = -gamepad2.left_trigger;
-                        slide = slidePower * 2;
+                        slide = slidePower * 2 * sens;
 
                         robot.Linear.setPower(slide);
                     }
@@ -98,15 +107,6 @@ public class testImplementation extends LinearOpMode {
                     intakePower = 0;
                 }
 
-                if(gamepad1.right_bumper)
-                {
-                    sens = 0.5f;
-                }
-                else
-                {
-                    sens = 2.0f;
-                }
-
                 vertical = -gamepad1.left_stick_y * sens;
                 horizontal = gamepad1.left_stick_x * sens;
                 pivot = gamepad1.right_stick_x * sens;
@@ -123,11 +123,15 @@ public class testImplementation extends LinearOpMode {
                 {
                     carousel = -gamepad1.left_trigger * 0.39f;
                 }
+                else if (robot.colorSensor.alpha() > 70)
+                {
+                    carousel = 2.0f;
+                }
+
                 else
                 {
                     carousel = 0;
                 }
-
                 robot.Carousel.setPower(carousel * 0.75f);
 
                 intake = intakePower;
@@ -143,10 +147,11 @@ public class testImplementation extends LinearOpMode {
                 if (gamepad2.b)
                 {
                     RobotLog.vv("linearHeight", "" + robot.Linear.getCurrentPosition());
+                    telemetry.update();
                 }
                 robot.Drop.setPosition(a);
 
-                robot.Cap.setPosition((-gamepad2.left_stick_y / 2) + 0.5);
+                robot.Cap.setPosition((gamepad2.left_stick_y / 8   ) + 0.5);
 
                 telemetry.addData("left Encoder", localizer.getLeftEncoder());
                 telemetry.addData("right Encoder", localizer.getRightEncoder());
@@ -159,6 +164,8 @@ public class testImplementation extends LinearOpMode {
                 telemetry.addData("rr x", myPose.getX());
                 telemetry.addData("rr y", myPose.getY());
                 telemetry.addData("rr rotation", Math.toDegrees(myPose.getHeading()));
+
+                telemetry.addData("linear: ", robot.Linear.getCurrentPosition());
 
                 telemetry.update();
             }

@@ -115,8 +115,6 @@ org/firstinspires/ftc/teamcode/trajectorysequence/sequencesegment/SequenceSegmen
  org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.SequenceSegment
 org/firstinspires/ftc/teamcode/RedPaths/RedWSpawnGettingCarried.java
  org.firstinspires.ftc.teamcode.RedPaths.RedWSpawnGettingCarried
-org/firstinspires/ftc/teamcode/linearControls.java
- org.firstinspires.ftc.teamcode.linearControls
 org/firstinspires/ftc/teamcode/drive/opmode/MaxVelocityTuner.java
  org.firstinspires.ftc.teamcode.drive.opmode.MaxVelocityTuner
 org/firstinspires/ftc/teamcode/EasyOpenCVTest.java

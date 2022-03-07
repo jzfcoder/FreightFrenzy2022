@@ -10,60 +10,39 @@ import com.qualcomm.robotcore.util.RobotLog;
 @TeleOp(name="linearsTesting")
 public class linearTest extends LinearOpMode
 {
-    DcMotor LinearL = null;
-    DcMotor LinearR = null;
+    HardwareController robot;
 
     @Override
     public void runOpMode()
     {
-        LinearL = hardwareMap.get(DcMotor.class, "LinearL");
-        LinearR = hardwareMap.get(DcMotor.class, "LinearR");
+        robot = new HardwareController(this, 0, 0, 0);
 
         waitForStart();
 
         while(opModeIsActive())
         {
-            LinearL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            LinearR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            RobotLog.vv("linears", LinearL.getCurrentPosition() + "");
+            RobotLog.vv("linears", robot.Linear.getCurrentPosition() + "");
 
-            if (gamepad2.left_trigger > 1)
+            if (gamepad2.a)
             {
-                moveLinear(gamepad2.left_trigger, 10);
+                robot.extendLinears(TeamMarkerDetector.TeamMarkerPosition.LEFT, 0.5);
             }
+            if (gamepad2.b)
+            {
+                robot.extendLinears(TeamMarkerDetector.TeamMarkerPosition.MIDDLE, 0.5);
+            }
+            if (gamepad2.x)
+            {
+                robot.extendLinears(TeamMarkerDetector.TeamMarkerPosition.RIGHT, 0.5);
+            }
+            if (gamepad2.y)
+            {
+                robot.retractLinears(0.5);
+            }
+            telemetry.addData("linears:", robot.Linear.getCurrentPosition());
+            telemetry.update();
         }
     }
 
-    public void moveLinear(double power, int distance)
-    {
-        LinearL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LinearR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        LinearL.setTargetPosition(distance);
-        LinearR.setTargetPosition(distance);
-
-        LinearL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LinearR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        powerLinear(power);
-
-        while (LinearL.isBusy() && LinearR.isBusy()) {}
-
-        stopLinear();
-        LinearL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        LinearR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-    public void powerLinear(double power)
-    {
-        LinearL.setPower(power);
-        LinearR.setPower(power);
-    }
-
-    public void stopLinear()
-    {
-        LinearL.setPower(0);
-        LinearR.setPower(0);
-    }
 }

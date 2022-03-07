@@ -158,7 +158,7 @@ public class TeamMarkerDetector {
             Core.extractChannel(YCrCb, Cb, 2);//takes cb difference and stores
 
             //b&w
-            Imgproc.threshold(Cb, thresholdMat, 102, 255, Imgproc.THRESH_BINARY_INV);
+            Imgproc.threshold(Cb, thresholdMat, 110, 255, Imgproc.THRESH_BINARY_INV);
 
             //get values from frame
             double[] pixMid = thresholdMat.get((int)(input.rows()* midPos[1]), (int)(input.cols()* midPos[0]));//gets value at circle

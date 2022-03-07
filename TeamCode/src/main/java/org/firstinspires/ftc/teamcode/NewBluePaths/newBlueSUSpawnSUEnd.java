@@ -29,8 +29,7 @@ public class newBlueSUSpawnSUEnd extends LinearOpMode {
         //telemetry.update();
 
         waitForStart();
-        //TODO: fix cv
-        //runCV();
+        runCV();
 
         if (isStopRequested())
         {
@@ -38,17 +37,31 @@ public class newBlueSUSpawnSUEnd extends LinearOpMode {
             return;
         }
 
-        Trajectory aHub = robot.drive.trajectoryBuilder(new Pose2d(-33, 63, Math.toRadians(180.0)))
-                .lineToConstantHeading(new Vector2d(-15.0, 60.0))
-                .build();
+        Trajectory aHub;
+        if (teamMarkerPosition.equals(TeamMarkerDetector.TeamMarkerPosition.RIGHT) || teamMarkerPosition.equals(TeamMarkerDetector.TeamMarkerPosition.NOT_DETECTED)) {
+            aHub = robot.drive.trajectoryBuilder(new Pose2d(-33, 63, Math.toRadians(180.0)))
+                    .lineToConstantHeading(new Vector2d(-14.0, 62.8))
+                    .build();
+        } else {
+            aHub = robot.drive.trajectoryBuilder(new Pose2d(-33, 63, Math.toRadians(180.0)))
+                    .lineToConstantHeading(new Vector2d(-14.0, 60.0))
+                    .build();
+        }
         robot.drive.followTrajectory(aHub);
-        robot.extendLinears(TeamMarkerDetector.TeamMarkerPosition.MIDDLE, 0.5);
+        robot.extendLinears(teamMarkerPosition, 0.5);
         robot.openServo();
         robot.closeServo();
         robot.retractLinears(0.5);
 
+        if (teamMarkerPosition.equals(TeamMarkerDetector.TeamMarkerPosition.RIGHT) || teamMarkerPosition.equals(TeamMarkerDetector.TeamMarkerPosition.NOT_DETECTED)) {
+            aHub = robot.drive.trajectoryBuilder(aHub.end())
+                    .lineToConstantHeading(new Vector2d(-14.0, 60.0))
+                    .build();
+            robot.drive.followTrajectory(aHub);
+        }
+
         Trajectory toCarousel = robot.drive.trajectoryBuilder(aHub.end())
-                .splineToLinearHeading(new Pose2d(-58.0, 55.0, Math.toRadians(-90.0)), Math.toRadians(180.0))
+                .splineToLinearHeading(new Pose2d(-58.0, 56.5, Math.toRadians(-90.0)), Math.toRadians(180.0))
                 .build();
 
         robot.drive.followTrajectory(toCarousel);
@@ -56,7 +69,7 @@ public class newBlueSUSpawnSUEnd extends LinearOpMode {
         robot.carouselSpin(-0.5);
 
         Trajectory toSU = robot.drive.trajectoryBuilder(toCarousel.end())
-                .lineToConstantHeading(new Vector2d(-60.0, 35.5))
+                .lineToConstantHeading(new Vector2d(-60.0, 37.5))
                 .build();
 
         robot.drive.followTrajectory(toSU);
@@ -67,12 +80,16 @@ public class newBlueSUSpawnSUEnd extends LinearOpMode {
         ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
         while (runtime.milliseconds() < 2000)
         {
-            if (teamMarkerDetector.getTeamMarkerPosition() != teamMarkerPosition.NOT_DETECTED)
+            TeamMarkerDetector.TeamMarkerPosition temp;
+            temp = teamMarkerDetector.getTeamMarkerPosition();
+            if (temp != TeamMarkerDetector.TeamMarkerPosition.NOT_DETECTED)
             {
-                teamMarkerPosition = teamMarkerDetector.getTeamMarkerPosition();
+                teamMarkerPosition = temp;
             }
             sleep(50);
         }
+        if (teamMarkerPosition == null) { teamMarkerPosition = TeamMarkerDetector.TeamMarkerPosition.NOT_DETECTED; }
+        sleep(2000);
         telemetry.addData("cvPosition", teamMarkerDetector.PosToString(teamMarkerPosition));
         telemetry.update();
         //teamMarkerDetector.clean();
