@@ -78,14 +78,18 @@ public class newBlueWSpawnWend extends LinearOpMode {
         ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
         while (runtime.milliseconds() < 2000)
         {
-            if (teamMarkerDetector.getTeamMarkerPosition() != teamMarkerPosition.NOT_DETECTED)
+            TeamMarkerDetector.TeamMarkerPosition temp;
+            temp = teamMarkerDetector.getTeamMarkerPosition();
+            if (temp != TeamMarkerDetector.TeamMarkerPosition.NOT_DETECTED)
             {
-                teamMarkerPosition = teamMarkerDetector.getTeamMarkerPosition();
+                teamMarkerPosition = temp;
             }
             sleep(50);
         }
+        if (teamMarkerPosition == null) { teamMarkerPosition = TeamMarkerDetector.TeamMarkerPosition.NOT_DETECTED; }
+        sleep(2000);
         telemetry.addData("cvPosition", teamMarkerDetector.PosToString(teamMarkerPosition));
         telemetry.update();
-        teamMarkerDetector.clean();
+        //teamMarkerDetector.clean();
     }
 }

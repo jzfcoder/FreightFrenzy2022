@@ -19,7 +19,7 @@ public class newBlueWGettingCarried extends LinearOpMode {
     @Override
     public void runOpMode()
     {
-        HardwareController robot = new HardwareController(this, 9, 63, -90);
+        HardwareController robot = new HardwareController(this, 9, 63, 180);
 
         telemetry.addData("init", "finished");
         telemetry.update();
@@ -31,12 +31,17 @@ public class newBlueWGettingCarried extends LinearOpMode {
             return;
         }
 
-        Trajectory toWarehouse = robot.drive.trajectoryBuilder(robot.localizer.getPoseEstimate())
-                .splineToLinearHeading(new Pose2d(40.0, 63.0, Math.toRadians(-90.0)), Math.toRadians(0.0))
-                .splineToConstantHeading(new Vector2d(40.0, 40.0), Math.toRadians(-90.0))
+        Trajectory inWarehouse = robot.drive.trajectoryBuilder(robot.localizer.getPoseEstimate())
+                .lineToLinearHeading(new Pose2d(35.0, 63.0, Math.toRadians(180.0)))
+                .splineToConstantHeading(new Vector2d(40, 60), 0)
                 .build();
 
-        robot.drive.followTrajectory(toWarehouse);
+        Trajectory toSide = robot.drive.trajectoryBuilder(inWarehouse.end())
+                .lineToLinearHeading(new Pose2d(40.0, 40.0, Math.toRadians(180.0)))
+                .build();
+
+        robot.drive.followTrajectory(inWarehouse);
+        robot.drive.followTrajectory(toSide);
     }
 
 }
