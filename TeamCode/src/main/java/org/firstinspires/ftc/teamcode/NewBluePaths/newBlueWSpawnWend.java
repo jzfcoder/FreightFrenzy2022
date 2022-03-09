@@ -24,7 +24,6 @@ public class newBlueWSpawnWend extends LinearOpMode {
         HardwareController robot = new HardwareController(this, 9, 63, -90);
         teamMarkerDetector = new TeamMarkerDetector(this);
         teamMarkerDetector.init();
-        runCV();
 
         telemetry.addData("init", "finished");
         telemetry.update();
@@ -33,6 +32,8 @@ public class newBlueWSpawnWend extends LinearOpMode {
 
         ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
+        runCV();
+
         if (isStopRequested())
         {
             robot.gcp.stop();
@@ -40,15 +41,25 @@ public class newBlueWSpawnWend extends LinearOpMode {
         }
 
         // deliver preload box
-        Trajectory aHub = robot.drive.trajectoryBuilder(robot.localizer.getPoseEstimate())
-                .lineToConstantHeading(new Vector2d(-15.0, 63.0))
-                .build();
-        robot.extendLinears(teamMarkerPosition, 0.5);
+        Trajectory aHub;
+        if (teamMarkerPosition.equals(TeamMarkerDetector.TeamMarkerPosition.RIGHT) || teamMarkerPosition.equals(TeamMarkerDetector.TeamMarkerPosition.NOT_DETECTED)) {
+            aHub = robot.drive.trajectoryBuilder(robot.localizer.getPoseEstimate())
+                    .lineToConstantHeading(new Vector2d(-10.0, 62.8))
+                    .build();
+        } else {
+            aHub = robot.drive.trajectoryBuilder(robot.localizer.getPoseEstimate())
+                    .lineToConstantHeading(new Vector2d(-10.0, 60.0))
+                    .build();
+        }
         robot.drive.followTrajectory(aHub);
+        robot.extendLinears(teamMarkerPosition, 0.5);
+        robot.openServo();
+        robot.closeServo();
+        robot.retractLinears(0.5);
 
-        // drive to warehouse entrance
-        Trajectory toWarehouse = robot.drive.trajectoryBuilder(aHub.end())
-                .splineToLinearHeading(new Pose2d(40.0, 63.0, Math.toRadians(-90.0)), Math.toRadians(0.0))
+        // drive into warehouse
+        Trajectory toWarehouse = robot.drive.trajectoryBuilder(robot.localizer.getPoseEstimate())
+                .splineToLinearHeading(new Pose2d(30.0, 63.0, Math.toRadians(-90.0)), Math.toRadians(0.0))
                 .build();
         robot.drive.followTrajectory(toWarehouse);
 
@@ -57,20 +68,36 @@ public class newBlueWSpawnWend extends LinearOpMode {
             // drive until box is intaken
             robot.driveUntilIntake(2500, 0.5, 2.0);
 
-            // drive to entrance of warehouse
-            Trajectory outWarehouse = robot.drive.trajectoryBuilder(robot.localizer.getPoseEstimate())
-                    .splineToLinearHeading(new Pose2d(25.0, 63.0, Math.toRadians(-90.0)), Math.toRadians(0.0))
-                    .build();
-            robot.drive.followTrajectory(outWarehouse);
+            if (runtime.milliseconds() < 25000)
+            {
+                // drive to entrance of warehouse
+                Trajectory outWarehouse = robot.drive.trajectoryBuilder(robot.localizer.getPoseEstimate())
+                        .splineToLinearHeading(new Pose2d(25.0, 63.0, Math.toRadians(-90.0)), Math.toRadians(0.0))
+                        .build();
+                robot.drive.followTrajectory(outWarehouse);
 
-            // drive to hub and drop off cargo
-            aHub = robot.drive.trajectoryBuilder(robot.localizer.getPoseEstimate())
-                    .lineToConstantHeading(new Vector2d(-15.0, 63.0))
-                    .build();
-            robot.extendLinears(TeamMarkerDetector.TeamMarkerPosition.RIGHT, 0.5);
-            robot.drive.followTrajectory(aHub);
+                // drive to hub and drop off cargo
+                aHub = robot.drive.trajectoryBuilder(robot.localizer.getPoseEstimate())
+                        .lineToConstantHeading(new Vector2d(-10.0, 62.8))
+                        .build();
+                robot.extendLinears(TeamMarkerDetector.TeamMarkerPosition.RIGHT, 0.5);
+                robot.drive.followTrajectory(aHub);
+                robot.extendLinears(teamMarkerPosition, 0.5);
+                robot.openServo();
+                robot.closeServo();
+                robot.retractLinears(0.5);
 
-        } while (runtime.milliseconds() < 25000);
+                // TODO: Check if aHub.end() works better
+                toWarehouse = robot.drive.trajectoryBuilder(robot.localizer.getPoseEstimate())
+                        .splineToLinearHeading(new Pose2d(30.0, 63.0, Math.toRadians(-90.0)), Math.toRadians(0.0))
+                        .build();
+                robot.drive.followTrajectory(toWarehouse);
+            }
+            else
+            {
+                break;
+            }
+        } while (runtime.milliseconds() < 28000);
     }
 
     void runCV()
