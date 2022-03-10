@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
+@Config
 public class HardwareController
 {
     // Hardware Reference Strings
@@ -27,9 +29,9 @@ public class HardwareController
     public static final String MOTOR_LB = "powerLB";
 
     // Linear Slide Positions
-    public static double topDist = -3300;
-    public static double middleDist = -2500;
-    public static double bottomDist = -2200;
+    public static double topDist = -2900;
+    public static double middleDist = -2600;
+    public static double bottomDist = -2400;
 
     public double ROBOT_INITIAL_ANGLE;
 
@@ -146,6 +148,10 @@ public class HardwareController
         powerLF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         powerLB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        IntakeF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        IntakeB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        Carousel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         Linear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
@@ -172,6 +178,15 @@ public class HardwareController
 
         powerLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         powerLB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        IntakeF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        IntakeF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        IntakeB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        IntakeB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        Carousel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Carousel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         Linear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Linear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
