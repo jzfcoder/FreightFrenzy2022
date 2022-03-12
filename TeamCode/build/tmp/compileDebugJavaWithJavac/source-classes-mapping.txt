@@ -8,6 +8,8 @@ org/firstinspires/ftc/teamcode/drive/opmode/BackAndForth.java
  org.firstinspires.ftc.teamcode.drive.opmode.BackAndForth
 org/firstinspires/ftc/teamcode/drive/opmode/MotorDirectionDebugger.java
  org.firstinspires.ftc.teamcode.drive.opmode.MotorDirectionDebugger
+org/firstinspires/ftc/teamcode/NewBluePaths/BlueWSpawnWEndNoCycle.java
+ org.firstinspires.ftc.teamcode.NewBluePaths.BlueWSpawnWEndNoCycle
 org/firstinspires/ftc/teamcode/drive/opmode/MaxAngularVeloTuner.java
  org.firstinspires.ftc.teamcode.drive.opmode.MaxAngularVeloTuner
 org/firstinspires/ftc/teamcode/RedPaths/RedWSpawnWEnd.java
@@ -122,6 +124,8 @@ org/firstinspires/ftc/teamcode/trajectorysequence/sequencesegment/SequenceSegmen
  org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.SequenceSegment
 org/firstinspires/ftc/teamcode/RedPaths/RedWSpawnGettingCarried.java
  org.firstinspires.ftc.teamcode.RedPaths.RedWSpawnGettingCarried
+org/firstinspires/ftc/teamcode/linearControls.java
+ org.firstinspires.ftc.teamcode.linearControls
 org/firstinspires/ftc/teamcode/drive/opmode/MaxVelocityTuner.java
  org.firstinspires.ftc.teamcode.drive.opmode.MaxVelocityTuner
 org/firstinspires/ftc/teamcode/HardwareController.java

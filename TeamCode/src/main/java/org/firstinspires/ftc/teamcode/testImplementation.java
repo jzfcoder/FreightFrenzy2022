@@ -96,11 +96,11 @@ public class testImplementation extends LinearOpMode {
 
                 if (gamepad2.right_bumper)
                 {
-                    intakePower = 2;
+                    intakePower = 1 * sens;
                 }
                 else if (gamepad2.left_bumper)
                 {
-                    intakePower = -2;
+                    intakePower = -1 * sens;
                 }
                 else
                 {
@@ -123,7 +123,7 @@ public class testImplementation extends LinearOpMode {
                 {
                     carousel = -gamepad1.left_trigger * 0.39f;
                 }
-                else if (robot.colorSensor.alpha() > 70)
+                else if (robot.colorSensor.alpha() > 120)
                 {
                     carousel = 2.0f;
                 }

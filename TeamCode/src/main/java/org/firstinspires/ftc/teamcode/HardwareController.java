@@ -29,9 +29,9 @@ public class HardwareController
     public static final String MOTOR_LB = "powerLB";
 
     // Linear Slide Positions
-    public static double topDist = -2900;
-    public static double middleDist = -2600;
-    public static double bottomDist = -2400;
+    public static double topDist = -3000;
+    public static double middleDist = -2550;
+    public static double bottomDist = -2300;
 
     public double ROBOT_INITIAL_ANGLE;
 
@@ -86,9 +86,9 @@ public class HardwareController
         setModes();
 
         // shadow the motors with the odo encoders
-        encoderLeft = Carousel;
-        encoderRight = powerRF;
-        encoderAux = IntakeF;
+        encoderLeft = powerRF;
+        encoderRight = IntakeB;
+        encoderAux = powerRB;
 
         // init IMU
         initIMU();
@@ -475,7 +475,7 @@ public class HardwareController
         ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
         setIntakePower(intakePower);
 
-        while (runtime.milliseconds() < maxRuntime && colorSensor.alpha() <= 70)
+        while (runtime.milliseconds() < maxRuntime && colorSensor.alpha() <= 120)
         {
             setAllWheelsPower(power);
         }
@@ -612,8 +612,8 @@ public class HardwareController
         while (runtime.milliseconds() < 1500) {
             Carousel.setPower(0.39 * power);
         }
-        while (runtime.milliseconds() >= 1500 && runtime.milliseconds() < 2250) {
-            Carousel.setPower(0.59 * power);
+        while (runtime.milliseconds() >= 1500 && runtime.milliseconds() < 2100) {
+            Carousel.setPower(0.7 * power);
         }
         Carousel.setPower(0);
     }

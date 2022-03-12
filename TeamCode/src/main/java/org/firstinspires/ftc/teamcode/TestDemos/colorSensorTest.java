@@ -19,7 +19,7 @@ public class colorSensorTest extends LinearOpMode {
 
         while(opModeIsActive())
         {
-            if (robot.colorSensor.alpha() > 70)
+            if (robot.colorSensor.alpha() > 120)
             {
                 telemetry.addData("intaken?", "true");
             }
