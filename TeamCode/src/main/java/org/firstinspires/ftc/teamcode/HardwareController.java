@@ -86,9 +86,9 @@ public class HardwareController
         setModes();
 
         // shadow the motors with the odo encoders
-        encoderLeft = Carousel;
-        encoderRight = powerRF;
-        encoderAux = IntakeF;
+        encoderLeft = IntakeF;
+        encoderRight = IntakeB;
+        encoderAux = powerRB;
 
         // init IMU
         initIMU();
