@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.BluePaths;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.HardwareController;
 import org.firstinspires.ftc.teamcode.TeamMarkerDetector;
 
+@Disabled
 @Autonomous(name = "BlueWSpawnGettingCarried", group = "Blue")
 public class BlueWSpawnGettingCarried extends LinearOpMode {
     TeamMarkerDetector.TeamMarkerPosition teamMarkerPosition;

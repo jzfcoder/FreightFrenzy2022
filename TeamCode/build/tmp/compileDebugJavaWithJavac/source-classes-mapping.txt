@@ -56,10 +56,10 @@ org/firstinspires/ftc/teamcode/drive/StandardTrackingWheelLocalizer.java
  org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer
 org/firstinspires/ftc/teamcode/drive/SampleTankDrive.java
  org.firstinspires.ftc.teamcode.drive.SampleTankDrive
-org/firstinspires/ftc/teamcode/NewBluePaths/AutonTest2.java
- org.firstinspires.ftc.teamcode.NewBluePaths.AutonTest2
 org/firstinspires/ftc/teamcode/drive/DriveConstants.java
  org.firstinspires.ftc.teamcode.drive.DriveConstants
+org/firstinspires/ftc/teamcode/NewRedPaths/newRedWGettingCarried.java
+ org.firstinspires.ftc.teamcode.NewRedPaths.newRedWGettingCarried
 org/firstinspires/ftc/teamcode/PIDController.java
  org.firstinspires.ftc.teamcode.PIDController
 org/firstinspires/ftc/teamcode/NewBluePaths/newBlueSUSpawnSUEnd.java
@@ -70,12 +70,18 @@ org/firstinspires/ftc/teamcode/drive/opmode/DriveVelocityPIDTuner.java
  org.firstinspires.ftc.teamcode.drive.opmode.DriveVelocityPIDTuner
  org.firstinspires.ftc.teamcode.drive.opmode.DriveVelocityPIDTuner$1
  org.firstinspires.ftc.teamcode.drive.opmode.DriveVelocityPIDTuner$Mode
+org/firstinspires/ftc/teamcode/testImplementation2.java
+ org.firstinspires.ftc.teamcode.testImplementation2
 org/firstinspires/ftc/teamcode/TestDemos/pathFollowDemo.java
  org.firstinspires.ftc.teamcode.TestDemos.pathFollowDemo
+org/firstinspires/ftc/teamcode/NewRedPaths/newRedWSpawnWEndNoCycle.java
+ org.firstinspires.ftc.teamcode.NewRedPaths.newRedWSpawnWEndNoCycle
 org/firstinspires/ftc/teamcode/drive/opmode/AutomaticFeedforwardTuner.java
  org.firstinspires.ftc.teamcode.drive.opmode.AutomaticFeedforwardTuner
 org/firstinspires/ftc/teamcode/TestDemos/colorSensorTest.java
  org.firstinspires.ftc.teamcode.TestDemos.colorSensorTest
+org/firstinspires/ftc/teamcode/rrLocalizerThread.java
+ org.firstinspires.ftc.teamcode.rrLocalizerThread
 org/firstinspires/ftc/teamcode/drive/opmode/TurnTest.java
  org.firstinspires.ftc.teamcode.drive.opmode.TurnTest
 org/firstinspires/ftc/teamcode/util/RegressionUtil.java
@@ -108,6 +114,8 @@ org/firstinspires/ftc/teamcode/drive/opmode/ManualFeedforwardTuner.java
  org.firstinspires.ftc.teamcode.drive.opmode.ManualFeedforwardTuner
  org.firstinspires.ftc.teamcode.drive.opmode.ManualFeedforwardTuner$1
  org.firstinspires.ftc.teamcode.drive.opmode.ManualFeedforwardTuner$Mode
+org/firstinspires/ftc/teamcode/NewRedPaths/newRedWSpawnWEnd.java
+ org.firstinspires.ftc.teamcode.NewRedPaths.newRedWSpawnWEnd
 org/firstinspires/ftc/teamcode/util/LoggingUtil.java
  org.firstinspires.ftc.teamcode.util.LoggingUtil
 org/firstinspires/ftc/teamcode/util/AxisDirection.java

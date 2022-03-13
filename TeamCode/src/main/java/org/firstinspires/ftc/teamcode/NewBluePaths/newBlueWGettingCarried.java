@@ -26,6 +26,13 @@ public class newBlueWGettingCarried extends LinearOpMode {
 
         waitForStart();
 
+        ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+        while(runtime.milliseconds() <= 750)
+        {
+            robot.Cap.setPosition(-1);
+        }
+        robot.Cap.setPosition(0.5);
+
         if (isStopRequested())
         {
             return;

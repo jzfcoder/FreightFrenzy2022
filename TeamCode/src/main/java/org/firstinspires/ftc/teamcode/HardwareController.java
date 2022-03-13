@@ -31,7 +31,7 @@ public class HardwareController
     // Linear Slide Positions
     public static double topDist = -3000;
     public static double middleDist = -2550;
-    public static double bottomDist = -2300;
+    public static double bottomDist = -2325;
 
     public double ROBOT_INITIAL_ANGLE;
 
@@ -57,8 +57,12 @@ public class HardwareController
     // Localization Objects
     public StandardTrackingWheelLocalizer localizer;
     public SampleMecanumDrive drive;
+
     public AstroGCP gcp;
     public Thread gcpThread;
+
+    public rrLocalizerThread rr;
+    public Thread rrThread;
 
     protected LinearOpMode opMode;
     public ElapsedTime runtime = new ElapsedTime();
@@ -102,6 +106,9 @@ public class HardwareController
 
         // init GCP
         initGCP(hardwareMap, x, y, theta);
+
+        // init rrLocalizerGCP
+        initRRGCP();
     }
 
     // Initialization Methods
@@ -218,6 +225,13 @@ public class HardwareController
         gcp = new AstroGCP(this, x, y, theta);
         gcpThread = new Thread(gcp);
         gcpThread.start();
+    }
+
+    private void initRRGCP()
+    {
+        rr = new rrLocalizerThread(this);
+        rrThread = new Thread(rr);
+        rrThread.start();
     }
 
     // ASTRO GCP ODOMETRY ROUNTINES
@@ -598,6 +612,23 @@ public class HardwareController
         Linear.setPower(0);
     }
 
+    public void intakeIn(double power)
+    {
+        IntakeF.setPower(power);
+        IntakeB.setPower(power);
+    }
+
+    public void intakeOut(double power)
+    {
+        IntakeF.setPower(-power);
+        IntakeB.setPower(-power);
+    }
+
+    public void stopIntake()
+    {
+        intakeIn(0);
+    }
+
     public void openServo()
     {
         ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
@@ -612,7 +643,7 @@ public class HardwareController
         while (runtime.milliseconds() < 1500) {
             Carousel.setPower(0.39 * power);
         }
-        while (runtime.milliseconds() >= 1500 && runtime.milliseconds() < 2100) {
+        while (runtime.milliseconds() >= 1500 && runtime.milliseconds() < 2500) {
             Carousel.setPower(0.7 * power);
         }
         Carousel.setPower(0);

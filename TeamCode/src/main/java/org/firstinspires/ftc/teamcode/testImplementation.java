@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
-@TeleOp(name = "AstroBot1")
+@TeleOp(name = "AstroBotBlue")
 public class testImplementation extends LinearOpMode {
     // 192.168.43.1
 
@@ -96,19 +96,19 @@ public class testImplementation extends LinearOpMode {
 
                 if (gamepad2.right_bumper)
                 {
-                    intakePower = 1 * sens;
+                    intakePower = 2;
                 }
                 else if (gamepad2.left_bumper)
                 {
-                    intakePower = -1 * sens;
+                    intakePower = -2;
                 }
                 else
                 {
                     intakePower = 0;
                 }
 
-                vertical = -gamepad1.left_stick_y * sens;
-                horizontal = gamepad1.left_stick_x * sens;
+                vertical = gamepad1.left_stick_y * sens;
+                horizontal = -gamepad1.left_stick_x * sens;
                 pivot = gamepad1.right_stick_x * sens;
                 robot.powerRF.setPower(-pivot + (vertical - horizontal));
                 robot.powerRB.setPower(-pivot + vertical + horizontal);
@@ -151,7 +151,7 @@ public class testImplementation extends LinearOpMode {
                 }
                 robot.Drop.setPosition(a);
 
-                robot.Cap.setPosition((gamepad2.left_stick_y / 8   ) + 0.5);
+                robot.Cap.setPosition((gamepad2.left_stick_y / 8) + 0.5);
 
                 telemetry.addData("left Encoder", localizer.getLeftEncoder());
                 telemetry.addData("right Encoder", localizer.getRightEncoder());

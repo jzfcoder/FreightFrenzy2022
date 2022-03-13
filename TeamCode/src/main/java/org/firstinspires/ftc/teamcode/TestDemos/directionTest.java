@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.TestDemos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.HardwareController;
 
+@Disabled
 @Autonomous(name = "AutonomousTest", group = "tests")
 public class directionTest extends LinearOpMode {
     HardwareController robot = new HardwareController(this, 0, 0 ,0);

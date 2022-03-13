@@ -23,10 +23,18 @@ public class newRedSUSpawnSUEnd extends LinearOpMode {
         teamMarkerDetector = new TeamMarkerDetector(this);
         teamMarkerDetector.init();
 
-        //telemetry.addData("init", "finished");
-        //telemetry.update();
+        telemetry.addData("init", "finished");
+        telemetry.update();
 
         waitForStart();
+
+        ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+        while(runtime.milliseconds() <= 750)
+        {
+            robot.Cap.setPosition(-1);
+        }
+        robot.Cap.setPosition(0.5);
+
         runCV();
 
         if (isStopRequested())
@@ -36,27 +44,30 @@ public class newRedSUSpawnSUEnd extends LinearOpMode {
         }
 
         Trajectory aHub = robot.drive.trajectoryBuilder(new Pose2d(-33, -63, Math.toRadians(0.0)))
-                .lineToConstantHeading(new Vector2d(-14.0, -62.8))
+                .lineToConstantHeading(new Vector2d(-12.0, -62.8))
                 .build();
-
         robot.drive.followTrajectory(aHub);
         robot.extendLinears(teamMarkerPosition, 0.5);
         robot.openServo();
         robot.closeServo();
         robot.retractLinears(0.5);
 
+        aHub = robot.drive.trajectoryBuilder(aHub.end())
+                .lineToConstantHeading(new Vector2d(-14.0, -58.0))
+                .build();
+        robot.drive.followTrajectory(aHub);
+
         Trajectory toCarousel = robot.drive.trajectoryBuilder(aHub.end())
-                .splineToLinearHeading(new Pose2d(-50.0, -63.0, Math.toRadians(0.0)), Math.toRadians(180.0))
+                .splineToLinearHeading(new Pose2d(-56.0, -56.0, Math.toRadians(45.0)), Math.toRadians(-90.0))
                 .build();
 
         robot.drive.followTrajectory(toCarousel);
 
-        robot.carouselSpin(-0.5);
+        robot.carouselSpin(0.5);
 
         Trajectory toSU = robot.drive.trajectoryBuilder(toCarousel.end())
-                .lineToLinearHeading(new Pose2d(-60.0, -35.5, Math.toRadians(-90.0)))
+                .lineToLinearHeading(new Pose2d(-60.0, -36, Math.toRadians(0.0)))
                 .build();
-
         robot.drive.followTrajectory(toSU);
     }
 

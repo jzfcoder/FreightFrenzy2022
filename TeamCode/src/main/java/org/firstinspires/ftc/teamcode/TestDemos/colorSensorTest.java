@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.TestDemos;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.HardwareController;
 
+@Disabled
 @TeleOp(name = "colorSensorTest")
 public class colorSensorTest extends LinearOpMode {
     HardwareController robot;

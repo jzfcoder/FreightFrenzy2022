@@ -29,6 +29,14 @@ public class newBlueSUSpawnSUEnd extends LinearOpMode {
         //telemetry.update();
 
         waitForStart();
+
+        ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+        while(runtime.milliseconds() <= 750)
+        {
+            robot.Cap.setPosition(-1);
+        }
+        robot.Cap.setPosition(0.5);
+
         runCV();
         //teamMarkerPosition = TeamMarkerDetector.TeamMarkerPosition.MIDDLE;
 

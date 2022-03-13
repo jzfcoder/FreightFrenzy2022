@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.RedPaths;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.HardwareController;
 import org.firstinspires.ftc.teamcode.TeamMarkerDetector;
 
+@Disabled
 @Autonomous(name = "RedWSpawnGettingCarried", group = "Red")
 public class RedWSpawnGettingCarried extends LinearOpMode {
     TeamMarkerDetector.TeamMarkerPosition teamMarkerPosition;

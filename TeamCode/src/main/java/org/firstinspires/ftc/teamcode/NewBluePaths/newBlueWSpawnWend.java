@@ -31,17 +31,23 @@ public class newBlueWSpawnWend extends LinearOpMode {
         waitForStart();
 
         ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+        while(runtime.milliseconds() <= 750)
+        {
+            robot.Cap.setPosition(-1);
+        }
+        robot.Cap.setPosition(0.5);
 
         runCV();
 
         if (isStopRequested())
         {
             robot.gcp.stop();
+            robot.rr.stop();
             return;
         }
 
         // deliver preload box
-        Trajectory aHub = robot.drive.trajectoryBuilder(robot.localizer.getPoseEstimate())
+        Trajectory aHub = robot.drive.trajectoryBuilder(robot.drive.getPoseEstimate())
                     .lineToConstantHeading(new Vector2d(-12.0, 62.8))
                     .build();
         robot.drive.followTrajectory(aHub);
@@ -52,10 +58,31 @@ public class newBlueWSpawnWend extends LinearOpMode {
 
         // drive into warehouse
         Trajectory toWarehouse = robot.drive.trajectoryBuilder(aHub.end())
-                .splineToLinearHeading(new Pose2d(30.0, 63.0, Math.toRadians(180.0)), Math.toRadians(0.0))
+                .lineToLinearHeading(new Pose2d(30.0, 63.0, Math.toRadians(180.0)))
                 .build();
         robot.drive.followTrajectory(toWarehouse);
 
+        robot.driveUntilIntake(2500, -0.25, 2.0);
+
+        Trajectory outWarehouse = robot.drive.trajectoryBuilder(robot.localizer.getPoseEstimate())
+                .lineToLinearHeading(new Pose2d(25.0, 63.0, Math.toRadians(180.0)))
+                .build();
+
+        robot.intakeOut(2.0);
+        robot.drive.followTrajectory(outWarehouse);
+        robot.stopIntake();
+
+        aHub = robot.drive.trajectoryBuilder(outWarehouse.end())
+                .lineToLinearHeading(new Pose2d(-12.0, 62.8, Math.toRadians(180.0)))
+                .build();
+
+        robot.drive.followTrajectory(aHub);
+        robot.extendLinears(TeamMarkerDetector.TeamMarkerPosition.RIGHT, 0.5);
+        robot.openServo();
+        robot.closeServo();
+        robot.retractLinears(0.5);
+
+        /*
         // Cycle
         do {
             // drive until box is intaken
@@ -88,7 +115,10 @@ public class newBlueWSpawnWend extends LinearOpMode {
             {
                 break;
             }
-        } while (runtime.milliseconds() < 28000);
+        } while (runtime.milliseconds() < 28000); */
+
+        robot.rr.stop();
+        robot.gcp.stop();
     }
 
     void runCV()

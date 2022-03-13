@@ -21,12 +21,14 @@
 
 package org.firstinspires.ftc.teamcode.TestDemos;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.TeamMarkerDetector;
 import org.openftc.easyopencv.OpenCvCamera;
 
+@Disabled
 @TeleOp(name="OpenCVTest", group="Comp")
 public class EasyOpenCVTest extends LinearOpMode
 {
